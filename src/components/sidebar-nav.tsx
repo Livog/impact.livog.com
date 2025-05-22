@@ -15,7 +15,7 @@ export interface SidebarKit {
 
 export default function SidebarNav({ kits }: { kits: SidebarKit[] }) {
   return (
-    <aside className="w-60 border-r p-2">
+    <aside className="border-grid fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 border-r md:sticky md:block">
       <Accordion type="multiple" className="space-y-1">
         {kits.map((kit) => (
           <AccordionItem value={kit.name} key={kit.name}>
