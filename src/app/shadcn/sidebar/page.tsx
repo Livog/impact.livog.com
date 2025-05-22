@@ -1,9 +1,5 @@
-import { SidebarProvider, Sidebar } from "@/components/ui/sidebar";
+import Client from "./client";
 
-export default function SidebarPage() {
-  return (
-    <SidebarProvider>
-      <Sidebar />
-    </SidebarProvider>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

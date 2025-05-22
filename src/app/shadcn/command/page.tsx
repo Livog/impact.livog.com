@@ -1,3 +1,5 @@
-import { CommandPage } from "./client"
+import { CommandPage as Client } from "./client";
 
-export default CommandPage
+export default function Page() {
+  return <Client />;
+}

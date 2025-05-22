@@ -1,10 +1,5 @@
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import Client from "./client";
 
-export default function TooltipPage() {
-  return (
-    <Tooltip>
-      <TooltipTrigger>Hover me</TooltipTrigger>
-      <TooltipContent>Tooltip content</TooltipContent>
-    </Tooltip>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

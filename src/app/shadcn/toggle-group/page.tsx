@@ -1,10 +1,5 @@
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import Client from "./client";
 
-export default function ToggleGroupPage() {
-  return (
-    <ToggleGroup type="single">
-      <ToggleGroupItem value="1">Item 1</ToggleGroupItem>
-      <ToggleGroupItem value="2">Item 2</ToggleGroupItem>
-    </ToggleGroup>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

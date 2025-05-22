@@ -1,5 +1,5 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import Client from "./client";
 
-export default function CheckboxPage() {
-  return <Checkbox />;
-} 
+export default function Page() {
+  return <Client />;
+}

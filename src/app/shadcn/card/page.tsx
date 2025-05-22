@@ -1,23 +1,5 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardAction,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import Client from "./client";
 
-export default function CardPage() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Title</CardTitle>
-        <CardDescription>Description</CardDescription>
-        <CardAction>Action</CardAction>
-      </CardHeader>
-      <CardContent>Content</CardContent>
-      <CardFooter>Footer</CardFooter>
-    </Card>
-  );
+export default function Page() {
+  return <Client />;
 }

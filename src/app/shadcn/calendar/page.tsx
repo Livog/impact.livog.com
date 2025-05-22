@@ -1,5 +1,5 @@
-import { Calendar } from "@/components/ui/calendar";
+import Client from "./client";
 
-export default function CalendarPage() {
-  return <Calendar />;
-} 
+export default function Page() {
+  return <Client />;
+}

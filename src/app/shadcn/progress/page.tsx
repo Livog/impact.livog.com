@@ -1,5 +1,5 @@
-import { Progress } from "@/components/ui/progress";
+import Client from "./client";
 
-export default function ProgressPage() {
-  return <Progress value={50} />;
-} 
+export default function Page() {
+  return <Client />;
+}

@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/label";
+import Client from "./client";
 
-export default function LabelPage() {
-  return <Label>Label</Label>;
-} 
+export default function Page() {
+  return <Client />;
+}

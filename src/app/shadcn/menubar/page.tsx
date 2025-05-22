@@ -1,5 +1,5 @@
-import { Menubar } from "@/components/ui/menubar";
+import Client from "./client";
 
-export default function MenubarPage() {
-  return <Menubar />;
-} 
+export default function Page() {
+  return <Client />;
+}

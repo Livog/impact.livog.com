@@ -1,5 +1,5 @@
-import { Separator } from "@/components/ui/separator";
+import Client from "./client";
 
-export default function SeparatorPage() {
-  return <Separator />;
-} 
+export default function Page() {
+  return <Client />;
+}

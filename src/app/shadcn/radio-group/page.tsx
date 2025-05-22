@@ -1,10 +1,5 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Client from "./client";
 
-export default function RadioGroupPage() {
-  return (
-    <RadioGroup>
-      <RadioGroupItem value="1" />
-      <RadioGroupItem value="2" />
-    </RadioGroup>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

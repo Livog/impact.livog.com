@@ -1,12 +1,5 @@
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Client from "./client";
 
-export default function CarouselPage() {
-  return (
-    <Carousel>
-      <CarouselContent>
-        <CarouselItem>Item 1</CarouselItem>
-        <CarouselItem>Item 2</CarouselItem>
-      </CarouselContent>
-    </Carousel>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

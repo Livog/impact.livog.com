@@ -1,18 +1,5 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import Client from "./client";
 
-export default function TablePage() {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Header</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell>Cell</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

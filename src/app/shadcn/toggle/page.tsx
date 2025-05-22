@@ -1,5 +1,5 @@
-import { Toggle } from "@/components/ui/toggle";
+import Client from "./client";
 
-export default function TogglePage() {
-  return <Toggle>Toggle</Toggle>;
-} 
+export default function Page() {
+  return <Client />;
+}

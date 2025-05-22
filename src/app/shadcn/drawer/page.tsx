@@ -1,10 +1,5 @@
-import { Drawer, DrawerTrigger, DrawerContent } from "@/components/ui/drawer";
+import Client from "./client";
 
-export default function DrawerPage() {
-  return (
-    <Drawer>
-      <DrawerTrigger>Open Drawer</DrawerTrigger>
-      <DrawerContent>Drawer content</DrawerContent>
-    </Drawer>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

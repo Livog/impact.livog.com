@@ -1,8 +1,5 @@
-import ClientForm from "./client";
+import Client from "./client";
 
-export default function FormPage() {
-  
-  return (
-    <ClientForm />
-  );
+export default function Page() {
+  return <Client />;
 }

@@ -1,10 +1,5 @@
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import Client from "./client";
 
-export default function CollapsiblePage() {
-  return (
-    <Collapsible>
-      <CollapsibleTrigger>Toggle</CollapsibleTrigger>
-      <CollapsibleContent>Content</CollapsibleContent>
-    </Collapsible>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

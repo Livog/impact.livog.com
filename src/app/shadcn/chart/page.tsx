@@ -1,3 +1,5 @@
-import { ChartPage } from "./client"
+import { ChartPage as Client } from "./client";
 
-export default ChartPage
+export default function Page() {
+  return <Client />;
+}

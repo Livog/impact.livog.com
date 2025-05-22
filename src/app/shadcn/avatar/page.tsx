@@ -1,10 +1,5 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import Client from "./client";
 
-export default function AvatarPage() {
-  return (
-    <Avatar>
-      <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

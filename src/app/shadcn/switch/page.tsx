@@ -1,5 +1,5 @@
-import { Switch } from "@/components/ui/switch";
+import Client from "./client";
 
-export default function SwitchPage() {
-  return <Switch />;
-} 
+export default function Page() {
+  return <Client />;
+}

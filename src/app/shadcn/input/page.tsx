@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
+import Client from "./client";
 
-export default function InputPage() {
-  return <Input placeholder="Input" />;
-} 
+export default function Page() {
+  return <Client />;
+}
