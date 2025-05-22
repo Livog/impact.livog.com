@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "pnpm clean-cache && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .next",
+    "clean-cache": "rm -rf .next/cache"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
