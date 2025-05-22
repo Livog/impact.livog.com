@@ -46,7 +46,10 @@ export async function getBuildStats({
   routePattern,
   skipLayouts = true,
 }: BuildStatsOptions = {}): Promise<RouteStats[]> {
-  const buildDir = path.join(process.cwd(), ".next");
+  const buildDir =
+    process.env.NODE_ENV === "production"
+      ? path.join(process.cwd(), ".next")
+      : path.join(process.cwd(), "src/data");
   const buildManifestPath = path.join(buildDir, "app-build-manifest.json");
   const pathManifestPath = path.join(buildDir, "app-path-routes-manifest.json");
 
