@@ -1,5 +1,5 @@
-import { NavigationMenu } from "@/components/ui/navigation-menu";
+import Client from "./client";
 
-export default function NavigationMenuPage() {
-  return <NavigationMenu />;
-} 
+export default function Page() {
+  return <Client />;
+}

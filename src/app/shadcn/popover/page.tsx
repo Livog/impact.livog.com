@@ -1,10 +1,5 @@
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import Client from "./client";
 
-export default function PopoverPage() {
-  return (
-    <Popover>
-      <PopoverTrigger>Open Popover</PopoverTrigger>
-      <PopoverContent>Popover content</PopoverContent>
-    </Popover>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

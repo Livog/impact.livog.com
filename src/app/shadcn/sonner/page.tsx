@@ -1,5 +1,5 @@
-import { Toaster } from "@/components/ui/sonner";
+import Client from "./client";
 
-export default function SonnerPage() {
-  return <Toaster />;
-} 
+export default function Page() {
+  return <Client />;
+}

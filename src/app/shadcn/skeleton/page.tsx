@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import Client from "./client";
 
-export default function SkeletonPage() {
-  return <Skeleton style={{ width: 100, height: 20 }} />;
-} 
+export default function Page() {
+  return <Client />;
+}

@@ -1,5 +1,5 @@
-import { Pagination } from "@/components/ui/pagination";
+import Client from "./client";
 
-export default function PaginationPage() {
-  return <Pagination />;
-} 
+export default function Page() {
+  return <Client />;
+}

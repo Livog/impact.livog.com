@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
+import Client from "./client";
 
-export default function BadgePage() {
-  return <Badge>Badge</Badge>;
-} 
+export default function Page() {
+  return <Client />;
+}

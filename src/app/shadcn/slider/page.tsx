@@ -1,5 +1,5 @@
-import { Slider } from "@/components/ui/slider";
+import Client from "./client";
 
-export default function SliderPage() {
-  return <Slider />;
-} 
+export default function Page() {
+  return <Client />;
+}

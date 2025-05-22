@@ -1,3 +1,5 @@
-import { InputOtpPage } from "./client"
+import { InputOtpPage as Client } from "./client";
 
-export default InputOtpPage
+export default function Page() {
+  return <Client />;
+}

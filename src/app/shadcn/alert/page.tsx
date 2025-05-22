@@ -1,10 +1,5 @@
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import Client from "./client";
 
-export default function AlertPage() {
-  return (
-    <Alert>
-      <AlertTitle>Alert title</AlertTitle>
-      <AlertDescription>Alert description</AlertDescription>
-    </Alert>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

@@ -1,19 +1,5 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
+import Client from "./client";
 
-export default function SelectPage() {
-  return (
-    <Select>
-      <SelectTrigger>Select a fruit</SelectTrigger>
-      <SelectContent>
-        <SelectItem value="apple">Apple</SelectItem>
-        <SelectItem value="banana">Banana</SelectItem>
-        <SelectItem value="orange">Orange</SelectItem>
-      </SelectContent>
-    </Select>
-  );
+export default function Page() {
+  return <Client />;
 }

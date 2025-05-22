@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
+import Client from "./client";
 
-export default function ButtonPage() {
-  return <Button>Button</Button>;
-} 
+export default function Page() {
+  return <Client />;
+}

@@ -1,10 +1,5 @@
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import Client from "./client";
 
-export default function SheetPage() {
-  return (
-    <Sheet>
-      <SheetTrigger>Open Sheet</SheetTrigger>
-      <SheetContent>Sheet content</SheetContent>
-    </Sheet>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

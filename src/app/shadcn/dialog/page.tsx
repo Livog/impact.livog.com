@@ -1,10 +1,5 @@
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import Client from "./client";
 
-export default function DialogPage() {
-  return (
-    <Dialog>
-      <DialogTrigger>Open Dialog</DialogTrigger>
-      <DialogContent>Dialog content</DialogContent>
-    </Dialog>
-  );
-} 
+export default function Page() {
+  return <Client />;
+}

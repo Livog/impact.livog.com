@@ -1,5 +1,5 @@
-import { Textarea } from "@/components/ui/textarea";
+import Client from "./client";
 
-export default function TextareaPage() {
-  return <Textarea placeholder="Textarea" />;
-} 
+export default function Page() {
+  return <Client />;
+}
