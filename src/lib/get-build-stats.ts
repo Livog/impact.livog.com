@@ -21,14 +21,20 @@ async function gzipSizeOf(filePath: string): Promise<number> {
 }
 
 // Converts the internal route key from the build manifest to the public route path.
-function resolveRoutePath(routeKey: string, pathManifest: Record<string, string>): string {
+function resolveRoutePath(
+  routeKey: string,
+  pathManifest: Record<string, string>
+): string {
   if (routeKey in pathManifest) return pathManifest[routeKey]!;
   if (routeKey === "/page") return "/";
   return routeKey.replace(/\/page$/, "");
 }
 
 // Calculates total gzipped size for the given chunk list.
-async function totalGzippedSize(chunks: string[], buildDir: string): Promise<number> {
+async function totalGzippedSize(
+  chunks: string[],
+  buildDir: string
+): Promise<number> {
   const sizes = await Promise.all(
     chunks.map((relative) => gzipSizeOf(path.join(buildDir, relative)))
   );
@@ -46,7 +52,10 @@ export async function getBuildStats({
   routePattern,
   skipLayouts = true,
 }: BuildStatsOptions = {}): Promise<RouteStats[]> {
-  const buildDir = path.join(process.cwd(), ".next");
+  const buildDir =
+    process.env.NODE_ENV === "production"
+      ? path.join(process.cwd(), ".next")
+      : path.join(process.cwd(), "src/data");
   const buildManifestPath = path.join(buildDir, "app-build-manifest.json");
   const pathManifestPath = path.join(buildDir, "app-path-routes-manifest.json");
 
@@ -56,14 +65,29 @@ export async function getBuildStats({
   const pathManifest = await readJson<Record<string, string>>(pathManifestPath);
 
   const stats: RouteStats[] = [];
+  if (process.env.NODE_ENV !== "production") {
+    stats.push({ route: "/base", firstLoad: 102194, chunks: [] });
+  }
 
   for (const [routeKey, chunks] of Object.entries(buildManifest.pages)) {
-    if (skipLayouts && (routeKey.endsWith("/layout") || routeKey === "/layout")) {
+    if (
+      skipLayouts &&
+      (routeKey.endsWith("/layout") || routeKey === "/layout")
+    ) {
       continue;
     }
 
     const routePath = resolveRoutePath(routeKey, pathManifest);
-    if (routePattern && !routePattern.test(routePath) && routePath !== "/base") {
+    if (
+      routePattern &&
+      !routePattern.test(routePath) &&
+      routePath !== "/base"
+    ) {
+      continue;
+    }
+
+    if (process.env.NODE_ENV !== "production") {
+      stats.push({ route: routePath, firstLoad: 139255, chunks: [] });
       continue;
     }
 
@@ -72,4 +96,4 @@ export async function getBuildStats({
   }
 
   return stats;
-} 
+}
