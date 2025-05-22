@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UI Library Build Impact
+
+This site demonstrates how popular UI libraries influence the size of a Next.js build. Each route renders a component from a library and the **Impact Table** lists the additional JavaScript loaded for that page. Use it to compare libraries and understand the performance cost of adopting them.
+
+This project was originally bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
