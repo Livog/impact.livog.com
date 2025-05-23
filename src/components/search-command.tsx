@@ -8,11 +8,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { Badge } from "./ui/badge";
 
 export interface SearchResult {
   type: "ui" | "general";
@@ -32,20 +32,32 @@ export default function SearchCommand({
   onSelect,
 }: SearchCommandProps) {
   const [query, setQuery] = useState("");
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: results = [] } = useSWR<SearchResult[]>(
+  const controllerRef = useRef<AbortController | null>(null);
+
+  const fetcher = useCallback(async (url: string) => {
+    controllerRef.current?.abort();
+    controllerRef.current = new AbortController();
+    const res = await fetch(url, { signal: controllerRef.current.signal });
+    if (!res.ok) throw new Error("Request failed");
+    return (await res.json()) as SearchResult[];
+  }, []);
+
+  const { data: results = [], isLoading } = useSWR<SearchResult[]>(
     query ? `/api/search?q=${encodeURIComponent(query)}` : null,
-    fetcher
+    fetcher,
+    { keepPreviousData: Boolean(query) }
   );
+
+  useEffect(() => () => controllerRef.current?.abort(), []);
 
   const router = useRouter();
 
   const handleSelect = (result: SearchResult) => {
     if (onSelect) {
       onSelect(result);
-    } else {
-      router.push(`/${result.type}/${result.path.join("/")}`);
+      return;
     }
+    router.push(`/${result.type}/${result.path.join("/")}`);
   };
 
   return (
@@ -57,27 +69,30 @@ export default function SearchCommand({
         className="h-12"
       />
       <CommandList>
-        {query && results.length === 0 && (
+        {query && results.length === 0 && !isLoading && (
           <CommandEmpty>No results found.</CommandEmpty>
         )}
-        {results.length > 0 && (
+
+        {isLoading && query && (
+          <CommandEmpty className="text-left py-3 px-3">
+            Loading...
+          </CommandEmpty>
+        )}
+
+        {query && results.length > 0 && !isLoading && (
           <CommandGroup heading="Results">
             {results.map((r) => (
               <CommandItem
-                key={`${r.path.join("/")}`}
-                value={`${r.path.join("/")}`}
+                key={r.path.join("/")}
+                value={r.path.join("/")}
                 onSelect={() => handleSelect(r)}
               >
                 <span>
                   <Badge
                     variant="default"
                     className={cn(
-                      r.type === "ui"
-                        ? "bg-blue-500/10 text-blue-400"
-                        : undefined,
-                      r.type === "general"
-                        ? "bg-green-500/10 text-green-400"
-                        : undefined
+                      r.type === "ui" && "bg-blue-500/10 text-blue-400",
+                      r.type === "general" && "bg-green-500/10 text-green-400"
                     )}
                   >
                     {r.type}
