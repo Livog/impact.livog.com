@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link";
 import {
   Accordion,
@@ -7,13 +5,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getUiIndex } from "@/lib/ui-index";
 
 export interface SidebarKit {
   name: string;
   components: string[];
 }
 
-export default function SidebarNav({ kits }: { kits: SidebarKit[] }) {
+export default async function SidebarNav() {
+  const kits = await getUiIndex();
   return (
     <aside className="border-grid fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 border-r md:sticky md:block">
       <Accordion type="multiple" className="space-y-1">

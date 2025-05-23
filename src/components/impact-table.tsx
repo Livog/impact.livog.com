@@ -5,6 +5,24 @@ function formatKB(bytes: number) {
   return `${(bytes / 1024).toFixed(1)} kB`;
 }
 
+function trimRoutePrefix(route: string, trimPrefix: string | string[] | false): string {
+  if (trimPrefix === false) {
+    return route;
+  }
+  
+  if (typeof trimPrefix === "string") {
+    return route.startsWith(trimPrefix) ? route.slice(trimPrefix.length) : route;
+  }
+  
+  for (const prefix of trimPrefix) {
+    if (route.startsWith(prefix)) {
+      return route.slice(prefix.length);
+    }
+  }
+  
+  return route;
+}
+
 export interface ImpactTableProps {
   /**
    * Route filter.
@@ -14,11 +32,14 @@ export interface ImpactTableProps {
   routePattern?: RegExp | string;
   /** Baseline route to subtract */
   baselineRoute?: string;
+  /** Trim the prefix from the route */
+  trimPrefix?: string | string[] | false;
 }
 
 export async function ImpactTable({
   routePattern,
   baselineRoute = "/base",
+  trimPrefix = false,
 }: ImpactTableProps) {
   const regexPattern =
     typeof routePattern === "string"
@@ -49,7 +70,7 @@ export async function ImpactTable({
       <tbody>
         {rows.map((r) => (
           <tr key={r.route} className="border-t">
-            <td className="py-2 pr-4 font-mono">{r.route}</td>
+            <td className="py-2 pr-4 font-mono">{trimRoutePrefix(r.route, trimPrefix)}</td>
             <td className="py-2 text-right">{formatKB(r.firstLoad)}</td>
             <td className="py-2 text-right font-medium">
               {formatKB(r.firstLoad - baseline.firstLoad)}

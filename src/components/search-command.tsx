@@ -69,16 +69,21 @@ export default function SearchCommand({
                   <Badge
                     variant="default"
                     className={cn(
-                      r.type === "ui" ? "bg-blue-500 text-white" : undefined,
+                      r.type === "ui"
+                        ? "bg-blue-500/10 text-blue-400"
+                        : undefined,
                       r.type === "general"
-                        ? "bg-green-500 text-white"
+                        ? "bg-green-500/10 text-green-400"
                         : undefined
                     )}
                   >
                     {r.type}
                   </Badge>{" "}
                   {r.path.map((p) => (
-                    <span key={p} className="before:content-['/'] before:mx-1">
+                    <span
+                      key={p}
+                      className="before:content-['/'] before:text-muted-foreground first:before:content-[''] before:mx-1"
+                    >
                       {p}
                     </span>
                   ))}
