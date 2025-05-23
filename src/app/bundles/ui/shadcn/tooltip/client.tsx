@@ -2,7 +2,7 @@
 
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
-export default function TooltipPage() {
+export function TooltipPage() {
   return (
     <Tooltip>
       <TooltipTrigger>Hover me</TooltipTrigger>

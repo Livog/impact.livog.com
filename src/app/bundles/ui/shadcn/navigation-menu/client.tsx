@@ -2,6 +2,6 @@
 
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 
-export default function NavigationMenuPage() {
+export function NavigationMenuPage() {
   return <NavigationMenu />;
 } 

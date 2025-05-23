@@ -2,6 +2,6 @@
 
 import { Slider } from "@/components/ui/slider";
 
-export default function SliderPage() {
+export function SliderPage() {
   return <Slider />;
 } 

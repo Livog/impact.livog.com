@@ -1,5 +1,5 @@
-import Header from "@/components/header";
-import SidebarNav from "@/components/sidebar-nav";
+import { Header } from "@/components/header";
+import { SidebarNav } from "@/components/sidebar-nav";
 import { Container } from "@/components/container";
 import { cn } from "@/lib/utils";
 

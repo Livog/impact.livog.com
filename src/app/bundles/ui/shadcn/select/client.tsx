@@ -7,7 +7,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-export default function SelectPage() {
+export function SelectPage() {
   return (
     <Select>
       <SelectTrigger>Select a fruit</SelectTrigger>

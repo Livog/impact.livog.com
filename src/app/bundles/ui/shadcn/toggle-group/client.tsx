@@ -2,7 +2,7 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-export default function ToggleGroupPage() {
+export function ToggleGroupPage() {
   return (
     <ToggleGroup type="single">
       <ToggleGroupItem value="1">Item 1</ToggleGroupItem>

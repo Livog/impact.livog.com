@@ -1,8 +1,8 @@
 "use client";
 
-import SearchCommand from "./search-command";
+import { SearchCommand } from "./search-command";
 
-export default function SearchDirect({ className }: { className?: string }) {
+export function SearchDirect({ className }: { className?: string }) {
 
   return (
     <div className={`rounded-md border bg-background overflow-hidden ${className ?? ""}`}>

@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-export default function TabsPage() {
+export function TabsPage() {
   return (
     <Tabs defaultValue="tab1">
       <TabsList>

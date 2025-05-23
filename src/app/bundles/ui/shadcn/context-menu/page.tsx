@@ -1,5 +1,5 @@
-import Client from "./client";
+import { ContextMenuPage } from "./client";
 
 export default function Page() {
-  return <Client />;
+  return <ContextMenuPage />;
 }

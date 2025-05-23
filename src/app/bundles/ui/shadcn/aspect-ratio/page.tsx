@@ -1,5 +1,5 @@
-import Client from "./client";
+import { AspectRatioPage } from "./client";
 
 export default function Page() {
-  return <Client />;
+  return <AspectRatioPage />;
 }

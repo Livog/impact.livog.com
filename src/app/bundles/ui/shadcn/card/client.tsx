@@ -10,7 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
-export default function CardPage() {
+export function CardPage() {
   return (
     <Card>
       <CardHeader>

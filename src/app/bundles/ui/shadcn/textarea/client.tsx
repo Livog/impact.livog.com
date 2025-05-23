@@ -2,6 +2,6 @@
 
 import { Textarea } from "@/components/ui/textarea";
 
-export default function TextareaPage() {
+export function TextareaPage() {
   return <Textarea placeholder="Textarea" />;
 } 

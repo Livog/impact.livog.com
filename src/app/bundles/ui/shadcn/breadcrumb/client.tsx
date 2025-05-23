@@ -2,7 +2,7 @@
 
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink } from "@/components/ui/breadcrumb";
 
-export default function BreadcrumbPage() {
+export function BreadcrumbPage() {
   return (
     <Breadcrumb>
       <BreadcrumbList>

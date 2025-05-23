@@ -4,7 +4,7 @@ interface DefaultLayoutProps {
   children: ReactNode;
 }
 
-export default function DefaultLayout({ children }: DefaultLayoutProps) {
+export function DefaultLayout({ children }: DefaultLayoutProps) {
   return (
     <div className="relative flex min-h-screen flex-col">
       <header className="top-0 z-2 w-full text-black dark:text-white sticky h-0">

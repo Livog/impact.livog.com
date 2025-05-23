@@ -26,7 +26,7 @@ interface SearchCommandProps {
   onSelect?: (result: SearchResult) => void;
 }
 
-export default function SearchCommand({
+export function SearchCommand({
   placeholder = "Search components...",
   className,
   onSelect,

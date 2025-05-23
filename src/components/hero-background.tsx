@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-export default function HeroBackground() {
+export function HeroBackground() {
   const patternId = useId();
 
   return (

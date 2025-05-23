@@ -2,7 +2,7 @@
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-export default function RadioGroupPage() {
+export function RadioGroupPage() {
   return (
     <RadioGroup>
       <RadioGroupItem value="1" />

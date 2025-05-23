@@ -2,7 +2,7 @@
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
-export default function AccordionPage() {
+export function AccordionPage() {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">

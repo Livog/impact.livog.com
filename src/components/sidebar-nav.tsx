@@ -12,7 +12,7 @@ export interface SidebarKit {
   components: string[];
 }
 
-export default async function SidebarNav() {
+export async function SidebarNav() {
   const kits = await getUiIndex();
   return (
     <aside className="border-grid fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 border-r md:sticky md:block">
