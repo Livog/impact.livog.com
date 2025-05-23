@@ -9,7 +9,9 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useSWR from "swr";
+import { useRouter } from "next/navigation";
 import { Badge } from "./ui/badge";
 
 export interface SearchResult {
@@ -30,20 +32,21 @@ export default function SearchCommand({
   onSelect,
 }: SearchCommandProps) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data: results = [] } = useSWR<SearchResult[]>(
+    query ? `/api/search?q=${encodeURIComponent(query)}` : null,
+    fetcher
+  );
 
-  useEffect(() => {
-    if (!query) {
-      setResults([]);
-      return;
+  const router = useRouter();
+
+  const handleSelect = (result: SearchResult) => {
+    if (onSelect) {
+      onSelect(result);
+    } else {
+      router.push(`/${result.type}/${result.path.join("/")}`);
     }
-    const controller = new AbortController();
-    fetch(`/api/search?q=${encodeURIComponent(query)}`)
-      .then((res) => res.json())
-      .then(setResults)
-      .catch(() => {});
-    return () => controller.abort();
-  }, [query]);
+  };
 
   return (
     <Command className={cn(className)}>
@@ -63,7 +66,7 @@ export default function SearchCommand({
               <CommandItem
                 key={`${r.path.join("/")}`}
                 value={`${r.path.join("/")}`}
-                onSelect={() => onSelect?.(r)}
+                onSelect={() => handleSelect(r)}
               >
                 <span>
                   <Badge
