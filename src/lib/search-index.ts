@@ -23,7 +23,7 @@ async function computeSearch(): Promise<SearchEntry[]> {
         const sizeUp = s.firstLoad - baseline.firstLoad;
         return {
           type: 'ui',
-          path: ['ui', kit, component],
+          path: [kit, component],
           sizeUp,
         };
       }
