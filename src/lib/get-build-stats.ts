@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
+import { match } from "path-to-regexp";
 
 export interface RouteStats {
   route: string;
@@ -42,8 +43,8 @@ async function totalGzippedSize(
 }
 
 export type BuildStatsOptions = {
-  /** Only include routes that match this RegExp */
-  routePattern?: RegExp;
+  /** Only include routes that match this RegExp or path pattern */
+  routePattern?: RegExp | string;
   /** Skip layout routes, default true */
   skipLayouts?: boolean;
 };
@@ -78,12 +79,16 @@ export async function getBuildStats({
     }
 
     const routePath = resolveRoutePath(routeKey, pathManifest);
-    if (
-      routePattern &&
-      !routePattern.test(routePath) &&
-      routePath !== "/base"
-    ) {
-      continue;
+    
+    if (routePattern && routePath !== "/base") {
+      if (typeof routePattern === "string") {
+        const pathMatcher = match(routePattern);
+        if (!pathMatcher(routePath)) {
+          continue;
+        }
+      } else if (!routePattern.test(routePath)) {
+        continue;
+      }
     }
 
     if (process.env.NODE_ENV !== "production") {
