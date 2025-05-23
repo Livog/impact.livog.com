@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { Badge } from "./ui/badge";
 
-interface SearchResult {
-  kit: string;
-  component: string;
+export interface SearchResult {
+  type: "ui" | "general";
+  path: string[];
   sizeUp: number;
 }
 
@@ -23,10 +24,10 @@ interface SearchCommandProps {
   onSelect?: (result: SearchResult) => void;
 }
 
-export default function SearchCommand({ 
-  placeholder = "Search components...", 
+export default function SearchCommand({
+  placeholder = "Search components...",
   className,
-  onSelect 
+  onSelect,
 }: SearchCommandProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -60,12 +61,27 @@ export default function SearchCommand({
           <CommandGroup heading="Results">
             {results.map((r) => (
               <CommandItem
-                key={`${r.kit}-${r.component}`}
-                value={`${r.kit} ${r.component}`}
+                key={`${r.path.join("/")}`}
+                value={`${r.path.join("/")}`}
                 onSelect={() => onSelect?.(r)}
               >
                 <span>
-                  {r.kit} / {r.component}
+                  <Badge
+                    variant="default"
+                    className={cn(
+                      r.type === "ui" ? "bg-blue-500 text-white" : undefined,
+                      r.type === "general"
+                        ? "bg-green-500 text-white"
+                        : undefined
+                    )}
+                  >
+                    {r.type}
+                  </Badge>{" "}
+                  {r.path.map((p) => (
+                    <span key={p} className="before:content-['/'] before:mx-1">
+                      {p}
+                    </span>
+                  ))}
                 </span>
                 <span className="ml-auto text-xs tabular-nums text-muted-foreground">
                   {(r.sizeUp / 1024).toFixed(1)} kB
@@ -77,4 +93,4 @@ export default function SearchCommand({
       </CommandList>
     </Command>
   );
-} 
+}
