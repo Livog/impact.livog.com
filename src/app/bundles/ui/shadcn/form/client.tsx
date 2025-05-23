@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 
-export default function ClientForm() {
+export function ClientForm() {
   const form = useForm<{ email: string }>({
     defaultValues: { email: "" },
   });

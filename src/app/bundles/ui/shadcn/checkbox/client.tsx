@@ -2,6 +2,6 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-export default function CheckboxPage() {
+export function CheckboxPage() {
   return <Checkbox />;
 } 

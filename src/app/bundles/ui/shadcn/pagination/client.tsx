@@ -2,6 +2,6 @@
 
 import { Pagination } from "@/components/ui/pagination";
 
-export default function PaginationPage() {
+export function PaginationPage() {
   return <Pagination />;
 } 

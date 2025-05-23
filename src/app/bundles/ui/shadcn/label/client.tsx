@@ -2,6 +2,6 @@
 
 import { Label } from "@/components/ui/label";
 
-export default function LabelPage() {
+export function LabelPage() {
   return <Label>Label</Label>;
 } 

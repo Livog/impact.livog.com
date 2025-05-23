@@ -1,9 +1,9 @@
 import { Container } from "@/components/container";
-import HeroBackground from "@/components/hero-background";
+import { HeroBackground } from "@/components/hero-background";
 import SearchDirect from "@/components/search-direct";
 import { Section } from "@/components/section";
 
-export default function SearchBlock() {
+export function SearchBlock() {
   return (
     <Section spacing="xlarge" background={<HeroBackground />} className="min-h-screen flex flex-col items-center justify-center">
       <Container className="relative">

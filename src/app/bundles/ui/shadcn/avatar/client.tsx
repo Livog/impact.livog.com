@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-export default function AvatarPage() {
+export function AvatarPage() {
   return (
     <Avatar>
       <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />

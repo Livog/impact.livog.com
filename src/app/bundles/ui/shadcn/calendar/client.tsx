@@ -2,6 +2,6 @@
 
 import { Calendar } from "@/components/ui/calendar";
 
-export default function CalendarPage() {
+export function CalendarPage() {
   return <Calendar />;
 } 

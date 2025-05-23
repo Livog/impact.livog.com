@@ -2,7 +2,7 @@
 
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 
-export default function CollapsiblePage() {
+export function CollapsiblePage() {
   return (
     <Collapsible>
       <CollapsibleTrigger>Toggle</CollapsibleTrigger>

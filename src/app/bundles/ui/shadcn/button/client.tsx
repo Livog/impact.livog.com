@@ -2,6 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 
-export default function ButtonPage() {
+export function ButtonPage() {
   return <Button>Button</Button>;
 } 

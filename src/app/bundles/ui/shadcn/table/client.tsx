@@ -2,7 +2,7 @@
 
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
-export default function TablePage() {
+export function TablePage() {
   return (
     <Table>
       <TableHeader>

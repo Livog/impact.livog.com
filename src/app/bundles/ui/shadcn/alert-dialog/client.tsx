@@ -2,7 +2,7 @@
 
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from "@/components/ui/alert-dialog";
 
-export default function AlertDialogPage() {
+export function AlertDialogPage() {
   return (
     <AlertDialog>
       <AlertDialogTrigger>Open Alert</AlertDialogTrigger>

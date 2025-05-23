@@ -2,6 +2,6 @@
 
 import { Badge } from "@/components/ui/badge";
 
-export default function BadgePage() {
+export function BadgePage() {
   return <Badge>Badge</Badge>;
 } 

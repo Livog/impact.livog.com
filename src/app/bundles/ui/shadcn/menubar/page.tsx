@@ -1,5 +1,5 @@
-import Client from "./client";
+import { MenubarPage } from "./client";
 
 export default function Page() {
-  return <Client />;
+  return <MenubarPage />;
 }

@@ -2,7 +2,7 @@
 
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
 
-export default function DropdownMenuPage() {
+export function DropdownMenuPage() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>Open Menu</DropdownMenuTrigger>

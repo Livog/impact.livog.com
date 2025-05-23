@@ -2,6 +2,6 @@
 
 import { Switch } from "@/components/ui/switch";
 
-export default function SwitchPage() {
+export function SwitchPage() {
   return <Switch />;
 } 

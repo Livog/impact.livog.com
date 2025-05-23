@@ -1,5 +1,5 @@
-import Client from "./client";
+import { CollapsiblePage } from "./client";
 
 export default function Page() {
-  return <Client />;
+  return <CollapsiblePage />;
 }

@@ -2,7 +2,7 @@
 
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
-export default function CarouselPage() {
+export function CarouselPage() {
   return (
     <Carousel>
       <CarouselContent>

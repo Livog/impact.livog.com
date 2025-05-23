@@ -2,7 +2,7 @@
 
 import { ContextMenu, ContextMenuTrigger, ContextMenuContent } from "@/components/ui/context-menu";
 
-export default function ContextMenuPage() {
+export function ContextMenuPage() {
   return (
     <ContextMenu>
       <ContextMenuTrigger>Right click me</ContextMenuTrigger>

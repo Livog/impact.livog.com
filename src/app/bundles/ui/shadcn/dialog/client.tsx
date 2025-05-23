@@ -2,7 +2,7 @@
 
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
-export default function DialogPage() {
+export function DialogPage() {
   return (
     <Dialog>
       <DialogTrigger>Open Dialog</DialogTrigger>

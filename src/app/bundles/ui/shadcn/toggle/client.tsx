@@ -2,6 +2,6 @@
 
 import { Toggle } from "@/components/ui/toggle";
 
-export default function TogglePage() {
+export function TogglePage() {
   return <Toggle>Toggle</Toggle>;
 } 

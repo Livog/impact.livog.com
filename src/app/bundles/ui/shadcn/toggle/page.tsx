@@ -1,5 +1,5 @@
-import Client from "./client";
+import { TogglePage } from "./client";
 
 export default function Page() {
-  return <Client />;
+  return <TogglePage />;
 }

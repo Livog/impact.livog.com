@@ -2,7 +2,7 @@
 
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 
-export default function HoverCardPage() {
+export function HoverCardPage() {
   return (
     <HoverCard>
       <HoverCardTrigger>Hover me</HoverCardTrigger>

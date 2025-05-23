@@ -2,6 +2,6 @@
 
 import { Separator } from "@/components/ui/separator";
 
-export default function SeparatorPage() {
+export function SeparatorPage() {
   return <Separator />;
 } 

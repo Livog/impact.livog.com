@@ -2,9 +2,9 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useEffect } from "react";
-import SearchCommand from "./search-command";
+import { SearchCommand } from "./search-command";
 
-export default function SearchDialog({
+export function SearchDialog({
   open,
   onOpenChange,
 }: {

@@ -2,6 +2,6 @@
 
 import { Menubar } from "@/components/ui/menubar";
 
-export default function MenubarPage() {
+export function MenubarPage() {
   return <Menubar />;
 } 

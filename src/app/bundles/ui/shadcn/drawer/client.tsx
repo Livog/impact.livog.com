@@ -2,7 +2,7 @@
 
 import { Drawer, DrawerTrigger, DrawerContent } from "@/components/ui/drawer";
 
-export default function DrawerPage() {
+export function DrawerPage() {
   return (
     <Drawer>
       <DrawerTrigger>Open Drawer</DrawerTrigger>

@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { SearchIcon } from "lucide-react";
 import { CommandShortcut } from "@/components/ui/command";
-import SearchDialog from "./search-dialog";
+import { SearchDialog } from "./search-dialog";
 
-export default function SearchButton({ className }: { className?: string }) {
+export function SearchButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <>
