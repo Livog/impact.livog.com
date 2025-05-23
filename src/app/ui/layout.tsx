@@ -2,19 +2,21 @@ import { getUiIndex } from "@/lib/ui-index";
 import Header from "@/components/header";
 import SidebarNav from "@/components/sidebar-nav";
 import Container from "@/components/ui/container";
+import { cn } from "@/lib/utils";
 
 export default async function UiLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const kits = await getUiIndex();
+  //const kits = await getUiIndex();
+  const hasSidebar = false;
   return (
     <div className="relative flex min-h-svh flex-col bg-background">
       <div className="border-grid flex flex-1 flex-col">
         <Header />
-        <Container className="flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
-          <SidebarNav kits={kits} />
+        <Container className={cn("flex-1 items-start md:grid md:gap-6 lg:gap-10", hasSidebar ? "md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)]" : "md:grid-cols-[minmax(0,1fr)]")}>
+          {/* <SidebarNav kits={kits} /> */}
           <main className="flex-1">{children}</main>
         </Container>
       </div>

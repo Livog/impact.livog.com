@@ -31,36 +31,32 @@ export async function ImpactTable({
     return <p className="p-4">No matching routes found.</p>;
   }
 
-  const baseline =
-    stats.find((s) => s.route === baselineRoute) ?? stats[0];
+  const baseline = stats.find((s) => s.route === baselineRoute) ?? stats[0];
 
   const rows = stats
     .filter((s) => s.route !== baseline.route)
     .sort((a, b) => b.firstLoad - a.firstLoad);
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-6">Route Impact</h1>
-      <table className="w-full text-sm border-collapse">
-        <thead>
-          <tr>
-            <th className="text-left pb-2">Route</th>
-            <th className="text-right pb-2">First Load JS</th>
-            <th className="text-right pb-2">Δ vs {baseline.route}</th>
+    <table className="w-full text-sm border-collapse">
+      <thead>
+        <tr>
+          <th className="text-left pb-2">Route</th>
+          <th className="text-right pb-2">First Load JS</th>
+          <th className="text-right pb-2">Δ vs {baseline.route}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.route} className="border-t">
+            <td className="py-2 pr-4 font-mono">{r.route}</td>
+            <td className="py-2 text-right">{formatKB(r.firstLoad)}</td>
+            <td className="py-2 text-right font-medium">
+              {formatKB(r.firstLoad - baseline.firstLoad)}
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.route} className="border-t">
-              <td className="py-2 pr-4 font-mono">{r.route}</td>
-              <td className="py-2 text-right">{formatKB(r.firstLoad)}</td>
-              <td className="py-2 text-right font-medium">
-                {formatKB(r.firstLoad - baseline.firstLoad)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
-} 
+}
