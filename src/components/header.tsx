@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import SearchButton from "./search-button";
-import Container from "./ui/container";
+import { Container } from "./container";
 import { appConfig } from "@/config/app";
 
 export default function Header() {

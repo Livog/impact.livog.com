@@ -1,6 +1,6 @@
 import Header from "@/components/header";
 import SidebarNav from "@/components/sidebar-nav";
-import Container from "@/components/ui/container";
+import { Container } from "@/components/container";
 import { cn } from "@/lib/utils";
 
 export default async function UiLayout({
