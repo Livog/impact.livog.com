@@ -8,7 +8,7 @@ export interface SearchEntry {
 }
 
 async function computeSearch(): Promise<SearchEntry[]> {
-  const stats = await getBuildStats({ routePattern: "/bundles/:path*" });
+  const stats = await getBuildStats({ routePattern: "/bundles/*path" });
   const baseline = stats.find((s) => s.route === "/base") ?? { route: "/base", firstLoad: 102194, chunks: [] };
   
   const uiMatcher = match("/bundles/ui/:kit/:component");
