@@ -1,7 +1,6 @@
 'use client'
 
 import { Timeline } from '@chakra-ui/react'
-import { LuShip, LuCheck, LuPackage } from 'lucide-react'
 
 export function TimelinePage() {
   return (
@@ -10,7 +9,6 @@ export function TimelinePage() {
         <Timeline.Connector>
           <Timeline.Separator />
           <Timeline.Indicator>
-            <LuShip />
           </Timeline.Indicator>
         </Timeline.Connector>
         <Timeline.Content>
@@ -27,7 +25,6 @@ export function TimelinePage() {
         <Timeline.Connector>
           <Timeline.Separator />
           <Timeline.Indicator>
-            <LuCheck />
           </Timeline.Indicator>
         </Timeline.Connector>
         <Timeline.Content>
@@ -40,7 +37,6 @@ export function TimelinePage() {
         <Timeline.Connector>
           <Timeline.Separator />
           <Timeline.Indicator>
-            <LuPackage />
           </Timeline.Indicator>
         </Timeline.Connector>
         <Timeline.Content>

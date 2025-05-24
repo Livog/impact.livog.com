@@ -1,16 +1,21 @@
 'use client'
 
-import { Toast } from '@chakra-ui/react'
+import { toaster } from './toaster'
 
 export function ToastPage() {
   return (
-    <Toast.Root>
-      <Toast.Trigger asChild>
-        <button>Notify</button>
-      </Toast.Trigger>
-      <Toast.Positioner />
-      <Toast.Title>Notification</Toast.Title>
-      <Toast.Description>Your action was successful.</Toast.Description>
-    </Toast.Root>
+    <button
+      onClick={() =>
+        toaster.create({
+          title: 'Hello, world!',
+          description: 'This is a notification',
+          action: {
+            label: 'Close',
+            onClick: () => toaster.dismiss()
+          }
+        })
+      }>
+      Notify
+    </button>
   )
 }
