@@ -13,6 +13,8 @@
     "prettier": "prettier --write . --config prettier.config.cjs"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.19.1",
+    "@emotion/react": "^11.14.0",
     "@headlessui/react": "^2.2.4",
     "@heroui/react": "2.8.0-beta.5",
     "@heroui/toast": "^2.0.9",

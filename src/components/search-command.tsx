@@ -1,14 +1,13 @@
 'use client'
 
-import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
-import { Popover, PopoverContent, PopoverAnchor } from '@/components/ui/popover'
-import { Badge } from './ui/badge'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useSWR from 'swr'
-import { useRouter } from 'next/navigation'
-import { SearchIcon, Loader2 } from 'lucide-react'
-import { Input } from './ui/input'
+import { Badge } from './ui/badge'
 
 export interface SearchResult {
   type: 'ui' | 'general'
@@ -24,7 +23,6 @@ interface SearchCommandProps {
 
 export function SearchCommand({ placeholder = 'Search components...', onSelect }: SearchCommandProps) {
   const [query, setQuery] = useState('')
-  const [open, setOpen] = useState(false)
   const controllerRef = useRef<AbortController | null>(null)
 
   const fetcher = useCallback(async (url: string) => {
@@ -46,22 +44,16 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
   const handleSelect = (result: SearchResult) => {
     onSelect?.(result)
     if (!onSelect) router.push(`/${result.type}/${result.path.join('/')}`)
-    setOpen(false)
+    setQuery('')
   }
 
   const handleInputChange = (value: string) => {
     setQuery(value)
-    if (!value.trim()) {
-      setOpen(false)
-      return
-    }
-    setOpen(true)
   }
 
   const memoizedResults = useMemo(() => {
-    if (results.length === 0) {
-      return <CommandEmpty>No results found.</CommandEmpty>
-    }
+    if (results.length === 0) return <CommandEmpty>No results found.</CommandEmpty>
+
     return (
       <CommandGroup heading="Results">
         {results.map((r) => (
@@ -69,8 +61,7 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
             <span>
               <Badge
                 variant="default"
-                className={cn(r.type === 'ui' && 'bg-blue-500/10 text-blue-400', r.type === 'general' && 'bg-green-500/10 text-green-400')}
-              >
+                className={cn(r.type === 'ui' && 'bg-blue-500/10 text-blue-400', r.type === 'general' && 'bg-green-500/10 text-green-400')}>
                 {r.type}
               </Badge>{' '}
               {r.path.map((p) => (
@@ -87,21 +78,20 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
   }, [results])
 
   return (
-    <>
-      <Popover open={open} onOpenChange={setOpen} modal={false}>
-        <PopoverAnchor>
-          <div data-slot="command-input-wrapper" className="flex items-center gap-2 border-b px-3">
-            <SearchIcon className="size-4 shrink-0 opacity-50" />
-            <Input
+    <Command>
+      <Popover open={Boolean(query)} modal={false}>
+        <PopoverAnchor asChild className="bg-background">
+          <div>
+            <CommandInput
               data-slot="command-input"
               className={cn(
-                `placeholder:text-muted-foreground dark:bg-background bg-background flex h-11 w-full rounded-md border-none py-3 text-sm !ring-0 outline-hidden !outline-none disabled:cursor-not-allowed disabled:opacity-50`
+                `h-11 w-full bg-background`
               )}
               placeholder={placeholder}
               value={query}
-              onChange={(e) => handleInputChange(e.target.value)}
+              onValueChange={handleInputChange}
             />
-            {isLoading && <Loader2 className="text-muted-foreground size-4 shrink-0 animate-spin" />}
+            <Loader2 className={cn('absolute right-2 top-1/2 -translate-y-1/2 hidden text-muted-foreground size-4 shrink-0 animate-spin', isLoading && 'inline-flex')} />
           </div>
         </PopoverAnchor>
         <PopoverContent
@@ -110,13 +100,10 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
           sideOffset={4}
           className="w-[var(--radix-popper-anchor-width)] p-0"
           onOpenAutoFocus={(e) => e.preventDefault()}
-          onCloseAutoFocus={(e) => e.preventDefault()}
-        >
-          <Command>
-            <CommandList>{query && memoizedResults}</CommandList>
-          </Command>
+          onCloseAutoFocus={(e) => e.preventDefault()}>
+          <CommandList>{query && memoizedResults}</CommandList>
         </PopoverContent>
       </Popover>
-    </>
+    </Command>
   )
 }
