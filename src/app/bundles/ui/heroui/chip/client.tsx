@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Chip} from "@heroui/react";
+import { Chip } from '@heroui/react'
 
 export function ChipPage() {
-  return <Chip>Chip</Chip>;
+  return <Chip>Chip</Chip>
 }

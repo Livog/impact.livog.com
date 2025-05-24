@@ -1,5 +1,5 @@
-import { DividerPage } from "./client";
+import { DividerPage } from './client'
 
 export default function Page() {
-  return <DividerPage />;
+  return <DividerPage />
 }

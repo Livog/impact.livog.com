@@ -1,5 +1,5 @@
-import { ToggleGroupPage } from "./client";
+import { ToggleGroupPage } from './client'
 
 export default function Page() {
-  return <ToggleGroupPage />;
+  return <ToggleGroupPage />
 }

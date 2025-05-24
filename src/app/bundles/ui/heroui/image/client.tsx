@@ -1,13 +1,7 @@
-"use client";
+'use client'
 
-import {Image} from "@heroui/react";
+import { Image } from '@heroui/react'
 
 export function ImagePage() {
-  return (
-    <Image
-      alt="HeroUI hero Image"
-      src="https://heroui.com/images/hero-card-complete.jpeg"
-      width={300}
-    />
-  );
+  return <Image alt="HeroUI hero Image" src="https://heroui.com/images/hero-card-complete.jpeg" width={300} />
 }

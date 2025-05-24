@@ -1,5 +1,5 @@
-import { SliderPage } from "./client";
+import { SliderPage } from './client'
 
 export default function Page() {
-  return <SliderPage />;
+  return <SliderPage />
 }

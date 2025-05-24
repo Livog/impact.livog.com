@@ -1,5 +1,5 @@
-import { TablePage } from "./client";
+import { TablePage } from './client'
 
 export default function Page() {
-  return <TablePage />;
+  return <TablePage />
 }

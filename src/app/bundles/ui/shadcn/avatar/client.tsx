@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 export function AvatarPage() {
   return (
@@ -8,5 +8,5 @@ export function AvatarPage() {
       <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
-  );
-} 
+  )
+}

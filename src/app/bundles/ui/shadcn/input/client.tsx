@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input'
 
 export function InputPage() {
-  return <Input placeholder="Input" />;
-} 
+  return <Input placeholder="Input" />
+}

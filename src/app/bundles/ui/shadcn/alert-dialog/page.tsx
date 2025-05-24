@@ -1,5 +1,5 @@
-import { AlertDialogPage } from "./client";
+import { AlertDialogPage } from './client'
 
 export default function Page() {
-  return <AlertDialogPage />;
+  return <AlertDialogPage />
 }

@@ -1,14 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 interface ContainerProps {
-  children: React.ReactNode;
-  className?: string;
+  children: React.ReactNode
+  className?: string
 }
 
 export function Container({ children, className }: ContainerProps) {
-  return (
-    <div className={cn("container", className)}>
-      {children}
-    </div>
-  );
-} 
+  return <div className={cn('container', className)}>{children}</div>
+}

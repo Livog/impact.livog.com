@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from '@/components/ui/dropdown-menu'
 
 export function DropdownMenuPage() {
   return (
@@ -8,5 +8,5 @@ export function DropdownMenuPage() {
       <DropdownMenuTrigger>Open Menu</DropdownMenuTrigger>
       <DropdownMenuContent>Menu content</DropdownMenuContent>
     </DropdownMenu>
-  );
-} 
+  )
+}

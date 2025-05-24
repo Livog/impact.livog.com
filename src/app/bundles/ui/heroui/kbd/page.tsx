@@ -1,5 +1,5 @@
-import { KbdPage } from "./client";
+import { KbdPage } from './client'
 
 export default function Page() {
-  return <KbdPage />;
+  return <KbdPage />
 }

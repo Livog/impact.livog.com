@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 
 export function TabsPage() {
   return (
@@ -12,5 +12,5 @@ export function TabsPage() {
       <TabsContent value="tab1">Tab 1 content</TabsContent>
       <TabsContent value="tab2">Tab 2 content</TabsContent>
     </Tabs>
-  );
-} 
+  )
+}

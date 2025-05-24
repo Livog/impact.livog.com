@@ -1,5 +1,5 @@
-import { AutocompletePage } from "./client";
+import { AutocompletePage } from './client'
 
 export default function Page() {
-  return <AutocompletePage />;
+  return <AutocompletePage />
 }

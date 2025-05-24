@@ -1,5 +1,5 @@
-import { PaginationPage } from "./client";
+import { PaginationPage } from './client'
 
 export default function Page() {
-  return <PaginationPage />;
+  return <PaginationPage />
 }

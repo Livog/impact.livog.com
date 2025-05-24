@@ -1,5 +1,5 @@
-import { PopoverPage } from "./client";
+import { PopoverPage } from './client'
 
 export default function Page() {
-  return <PopoverPage />;
+  return <PopoverPage />
 }

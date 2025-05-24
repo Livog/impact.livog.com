@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Calendar} from "@heroui/react";
+import { Calendar } from '@heroui/react'
 
 export function CalendarPage() {
-  return <Calendar />;
+  return <Calendar />
 }

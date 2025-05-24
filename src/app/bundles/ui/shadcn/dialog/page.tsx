@@ -1,5 +1,5 @@
-import { DialogPage } from "./client";
+import { DialogPage } from './client'
 
 export default function Page() {
-  return <DialogPage />;
+  return <DialogPage />
 }

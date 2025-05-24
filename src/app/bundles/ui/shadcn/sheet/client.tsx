@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 
 export function SheetPage() {
   return (
@@ -8,5 +8,5 @@ export function SheetPage() {
       <SheetTrigger>Open Sheet</SheetTrigger>
       <SheetContent>Sheet content</SheetContent>
     </Sheet>
-  );
-} 
+  )
+}

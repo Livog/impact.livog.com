@@ -1,5 +1,5 @@
-import { DatePickerPage } from "./client";
+import { DatePickerPage } from './client'
 
 export default function Page() {
-  return <DatePickerPage />;
+  return <DatePickerPage />
 }

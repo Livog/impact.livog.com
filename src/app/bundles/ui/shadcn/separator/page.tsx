@@ -1,5 +1,5 @@
-import { SeparatorPage } from "./client";
+import { SeparatorPage } from './client'
 
 export default function Page() {
-  return <SeparatorPage />;
+  return <SeparatorPage />
 }

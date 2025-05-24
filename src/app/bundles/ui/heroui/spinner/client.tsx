@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Spinner} from "@heroui/react";
+import { Spinner } from '@heroui/react'
 
 export function SpinnerPage() {
-  return <Spinner />;
+  return <Spinner />
 }

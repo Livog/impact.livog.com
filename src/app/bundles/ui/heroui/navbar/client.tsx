@@ -1,11 +1,6 @@
-"use client";
+'use client'
 
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@heroui/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
 
 export const AcmeLogo = () => (
   <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
@@ -16,7 +11,7 @@ export const AcmeLogo = () => (
       fillRule="evenodd"
     />
   </svg>
-);
+)
 
 export function NavbarPage() {
   return (
@@ -25,7 +20,7 @@ export function NavbarPage() {
         <AcmeLogo />
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         <NavbarItem>
           <a href="#">Features</a>
         </NavbarItem>
@@ -47,5 +42,5 @@ export function NavbarPage() {
         </NavbarItem>
       </NavbarContent>
     </Navbar>
-  );
+  )
 }

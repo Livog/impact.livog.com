@@ -1,5 +1,5 @@
-import { DateInputPage } from "./client";
+import { DateInputPage } from './client'
 
 export default function Page() {
-  return <DateInputPage />;
+  return <DateInputPage />
 }

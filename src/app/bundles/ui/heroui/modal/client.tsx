@@ -1,20 +1,12 @@
-"use client";
+'use client'
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react'
 
 export function ModalPage() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <button onClick={onOpen}>Open Modal</button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -24,17 +16,13 @@ export function ModalPage() {
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onClick={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onClick={onClose}>
-                  Action
-                </Button>
+                <button onClick={onClose}>Close</button>
+                <button onClick={onClose}>Action</button>
               </ModalFooter>
             </>
           )}
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }

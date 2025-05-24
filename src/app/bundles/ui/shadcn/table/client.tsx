@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 
 export function TablePage() {
   return (
@@ -16,5 +16,5 @@ export function TablePage() {
         </TableRow>
       </TableBody>
     </Table>
-  );
-} 
+  )
+}

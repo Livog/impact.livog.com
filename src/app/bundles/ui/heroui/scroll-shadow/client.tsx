@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import {ScrollShadow} from "@heroui/react";
+import { ScrollShadow } from '@heroui/react'
 
 export function ScrollShadowPage() {
   return (
@@ -14,5 +14,5 @@ export function ScrollShadowPage() {
       <p>Item 7</p>
       <p>Item 8</p>
     </ScrollShadow>
-  );
+  )
 }

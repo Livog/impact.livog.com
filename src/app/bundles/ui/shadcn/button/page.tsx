@@ -1,5 +1,5 @@
-import { ButtonPage } from "./client";
+import { ButtonPage } from './client'
 
 export default function Page() {
-  return <ButtonPage />;
+  return <ButtonPage />
 }

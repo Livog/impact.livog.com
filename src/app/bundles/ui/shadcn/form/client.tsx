@@ -1,19 +1,12 @@
-"use client";
+'use client'
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
 
 export function ClientForm() {
   const form = useForm<{ email: string }>({
-    defaultValues: { email: "" },
-  });
+    defaultValues: { email: '' }
+  })
 
   return (
     <Form {...form}>
@@ -33,5 +26,5 @@ export function ClientForm() {
         />
       </form>
     </Form>
-  );
+  )
 }

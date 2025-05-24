@@ -1,5 +1,5 @@
-import { DrawerPage } from "./client";
+import { DrawerPage } from './client'
 
 export default function Page() {
-  return <DrawerPage />;
+  return <DrawerPage />
 }

@@ -1,5 +1,5 @@
-import { CodePage } from "./client";
+import { CodePage } from './client'
 
 export default function Page() {
-  return <CodePage />;
+  return <CodePage />
 }

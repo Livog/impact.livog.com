@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 
 export function CarouselPage() {
   return (
@@ -10,5 +10,5 @@ export function CarouselPage() {
         <CarouselItem>Item 2</CarouselItem>
       </CarouselContent>
     </Carousel>
-  );
-} 
+  )
+}

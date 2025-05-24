@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Label } from "@/components/ui/label";
+import { Label } from '@/components/ui/label'
 
 export function LabelPage() {
-  return <Label>Label</Label>;
-} 
+  return <Label>Label</Label>
+}

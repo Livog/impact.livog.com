@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Separator } from "@/components/ui/separator";
+import { Separator } from '@/components/ui/separator'
 
 export function SeparatorPage() {
-  return <Separator />;
-} 
+  return <Separator />
+}

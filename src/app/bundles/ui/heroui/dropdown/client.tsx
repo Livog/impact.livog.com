@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@heroui/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react'
 
 export function DropdownPage() {
   return (
@@ -17,5 +17,5 @@ export function DropdownPage() {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
-  );
+  )
 }

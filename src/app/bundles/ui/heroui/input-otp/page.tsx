@@ -1,5 +1,5 @@
-import { InputOtpPage } from "./client";
+import { InputOtpPage } from './client'
 
 export default function Page() {
-  return <InputOtpPage />;
+  return <InputOtpPage />
 }

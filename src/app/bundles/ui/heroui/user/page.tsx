@@ -1,5 +1,5 @@
-import { UserPage } from "./client";
+import { UserPage } from './client'
 
 export default function Page() {
-  return <UserPage />;
+  return <UserPage />
 }

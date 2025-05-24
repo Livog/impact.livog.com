@@ -1,16 +1,9 @@
-"use client";
+'use client'
 
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
-  useDisclosure,
-} from "@heroui/react";
+import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, useDisclosure } from '@heroui/react'
 
 export function DrawerPage() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
   return (
     <>
       <button onClick={onOpen}>Open Drawer</button>
@@ -31,5 +24,5 @@ export function DrawerPage() {
         </DrawerContent>
       </Drawer>
     </>
-  );
+  )
 }

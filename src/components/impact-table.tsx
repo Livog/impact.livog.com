@@ -1,26 +1,26 @@
-import { getBuildStats } from "@/lib/get-build-stats";
-import { pathToRegexp } from "path-to-regexp";
+import { getBuildStats } from '@/lib/get-build-stats'
+import { pathToRegexp } from 'path-to-regexp'
 
 function formatKB(bytes: number) {
-  return `${(bytes / 1024).toFixed(1)} kB`;
+  return `${(bytes / 1024).toFixed(1)} kB`
 }
 
 function trimRoutePrefix(route: string, trimPrefix: string | string[] | false): string {
   if (trimPrefix === false) {
-    return route;
+    return route
   }
-  
-  if (typeof trimPrefix === "string") {
-    return route.startsWith(trimPrefix) ? route.slice(trimPrefix.length) : route;
+
+  if (typeof trimPrefix === 'string') {
+    return route.startsWith(trimPrefix) ? route.slice(trimPrefix.length) : route
   }
-  
+
   for (const prefix of trimPrefix) {
     if (route.startsWith(prefix)) {
-      return route.slice(prefix.length);
+      return route.slice(prefix.length)
     }
   }
-  
-  return route;
+
+  return route
 }
 
 export interface ImpactTableProps {
@@ -29,42 +29,33 @@ export interface ImpactTableProps {
    * - If RegExp: used directly.
    * - If string: treated as glob (e.g., "/shadcn/*") where * is a wildcard.
    */
-  routePattern?: RegExp | string;
+  routePattern?: RegExp | string
   /** Baseline route to subtract */
-  baselineRoute?: string;
+  baselineRoute?: string
   /** Trim the prefix from the route */
-  trimPrefix?: string | string[] | false;
+  trimPrefix?: string | string[] | false
 }
 
-export async function ImpactTable({
-  routePattern,
-  baselineRoute = "/base",
-  trimPrefix = false,
-}: ImpactTableProps) {
-  const regexPattern =
-    typeof routePattern === "string"
-      ? (pathToRegexp(routePattern).regexp as RegExp)
-      : routePattern;
+export async function ImpactTable({ routePattern, baselineRoute = '/base', trimPrefix = false }: ImpactTableProps) {
+  const regexPattern = typeof routePattern === 'string' ? (pathToRegexp(routePattern).regexp as RegExp) : routePattern
 
-  const stats = await getBuildStats({ routePattern: regexPattern });
+  const stats = await getBuildStats({ routePattern: regexPattern })
 
   if (!stats.length) {
-    return <p className="p-4">No matching routes found.</p>;
+    return <p className="p-4">No matching routes found.</p>
   }
 
-  const baseline = stats.find((s) => s.route === baselineRoute) ?? stats[0];
+  const baseline = stats.find((s) => s.route === baselineRoute) ?? stats[0]
 
-  const rows = stats
-    .filter((s) => s.route !== baseline.route)
-    .sort((a, b) => b.firstLoad - a.firstLoad);
+  const rows = stats.filter((s) => s.route !== baseline.route).sort((a, b) => b.firstLoad - a.firstLoad)
 
   return (
-    <table className="w-full text-sm border-collapse">
+    <table className="w-full border-collapse text-sm">
       <thead>
         <tr>
-          <th className="text-left pb-2">Route</th>
-          <th className="text-right pb-2">First Load JS</th>
-          <th className="text-right pb-2">Δ vs {baseline.route}</th>
+          <th className="pb-2 text-left">Route</th>
+          <th className="pb-2 text-right">First Load JS</th>
+          <th className="pb-2 text-right">Δ vs {baseline.route}</th>
         </tr>
       </thead>
       <tbody>
@@ -72,12 +63,10 @@ export async function ImpactTable({
           <tr key={r.route} className="border-t">
             <td className="py-2 pr-4 font-mono">{trimRoutePrefix(r.route, trimPrefix)}</td>
             <td className="py-2 text-right">{formatKB(r.firstLoad)}</td>
-            <td className="py-2 text-right font-medium">
-              {formatKB(r.firstLoad - baseline.firstLoad)}
-            </td>
+            <td className="py-2 text-right font-medium">{formatKB(r.firstLoad - baseline.firstLoad)}</td>
           </tr>
         ))}
       </tbody>
     </table>
-  );
+  )
 }

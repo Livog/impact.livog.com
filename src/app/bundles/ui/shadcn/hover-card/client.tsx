@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card'
 
 export function HoverCardPage() {
   return (
@@ -8,5 +8,5 @@ export function HoverCardPage() {
       <HoverCardTrigger>Hover me</HoverCardTrigger>
       <HoverCardContent>Hover card content</HoverCardContent>
     </HoverCard>
-  );
-} 
+  )
+}

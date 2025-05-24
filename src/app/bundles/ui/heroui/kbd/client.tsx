@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Kbd} from "@heroui/react";
+import { Kbd } from '@heroui/react'
 
 export function KbdPage() {
-  return <Kbd keys={["command"]}>K</Kbd>;
+  return <Kbd keys={['command']}>K</Kbd>
 }

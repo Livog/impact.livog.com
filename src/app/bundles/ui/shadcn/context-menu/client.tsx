@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { ContextMenu, ContextMenuTrigger, ContextMenuContent } from "@/components/ui/context-menu";
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent } from '@/components/ui/context-menu'
 
 export function ContextMenuPage() {
   return (
@@ -8,5 +8,5 @@ export function ContextMenuPage() {
       <ContextMenuTrigger>Right click me</ContextMenuTrigger>
       <ContextMenuContent>Menu content</ContextMenuContent>
     </ContextMenu>
-  );
-} 
+  )
+}

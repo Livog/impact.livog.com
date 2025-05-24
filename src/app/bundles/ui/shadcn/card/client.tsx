@@ -1,14 +1,6 @@
-"use client"
+'use client'
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardAction,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from '@/components/ui/card'
 
 export function CardPage() {
   return (
@@ -21,5 +13,5 @@ export function CardPage() {
       <CardContent>Content</CardContent>
       <CardFooter>Footer</CardFooter>
     </Card>
-  );
+  )
 }

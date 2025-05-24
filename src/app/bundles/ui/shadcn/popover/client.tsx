@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
 
 export function PopoverPage() {
   return (
@@ -8,5 +8,5 @@ export function PopoverPage() {
       <PopoverTrigger>Open Popover</PopoverTrigger>
       <PopoverContent>Popover content</PopoverContent>
     </Popover>
-  );
-} 
+  )
+}

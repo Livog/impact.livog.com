@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from '@/components/ui/badge'
 
 export function BadgePage() {
-  return <Badge>Badge</Badge>;
-} 
+  return <Badge>Badge</Badge>
+}

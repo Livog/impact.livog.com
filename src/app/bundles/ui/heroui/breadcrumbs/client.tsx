@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import {Breadcrumbs, BreadcrumbItem} from "@heroui/react";
+import { Breadcrumbs, BreadcrumbItem } from '@heroui/react'
 
 export function BreadcrumbsPage() {
   return (
@@ -11,5 +11,5 @@ export function BreadcrumbsPage() {
       <BreadcrumbItem>Album</BreadcrumbItem>
       <BreadcrumbItem>Song</BreadcrumbItem>
     </Breadcrumbs>
-  );
+  )
 }

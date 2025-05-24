@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Pagination } from "@/components/ui/pagination";
+import { Pagination } from '@/components/ui/pagination'
 
 export function PaginationPage() {
-  return <Pagination />;
-} 
+  return <Pagination />
+}

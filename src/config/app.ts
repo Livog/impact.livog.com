@@ -1,5 +1,5 @@
 export const appConfig = {
   social: {
-    x: "https://x.com",
-  },
-};
+    x: 'https://x.com'
+  }
+}

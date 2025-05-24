@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Checkbox} from "@heroui/react";
+import { Checkbox } from '@heroui/react'
 
 export function CheckboxPage() {
-  return <Checkbox>Checkbox</Checkbox>;
+  return <Checkbox>Checkbox</Checkbox>
 }

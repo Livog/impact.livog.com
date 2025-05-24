@@ -1,5 +1,5 @@
-import { SwitchPage } from "./client";
+import { SwitchPage } from './client'
 
 export default function Page() {
-  return <SwitchPage />;
+  return <SwitchPage />
 }

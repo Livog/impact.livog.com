@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {DatePicker} from "@heroui/react";
+import { DatePicker } from '@heroui/react'
 
 export function DatePickerPage() {
-  return <DatePicker label="Pick a date" className="max-w-xs" />;
+  return <DatePicker label="Pick a date" className="max-w-xs" />
 }

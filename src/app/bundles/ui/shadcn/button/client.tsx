@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 
 export function ButtonPage() {
-  return <Button>Button</Button>;
-} 
+  return <Button>Button</Button>
+}

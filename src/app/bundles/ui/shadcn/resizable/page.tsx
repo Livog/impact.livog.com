@@ -1,5 +1,5 @@
-import { ResizablePage } from "./client";
+import { ResizablePage } from './client'
 
 export default function Page() {
-  return <ResizablePage />;
+  return <ResizablePage />
 }

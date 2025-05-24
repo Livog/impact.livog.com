@@ -1,18 +1,16 @@
-"use client";
+'use client'
 
-import React from "react";
-import {Form} from "@heroui/react";
+import React from 'react'
+import { Form } from '@heroui/react'
 
 export function FormPage() {
-  const [submitted, setSubmitted] = React.useState<Record<string, FormDataEntryValue> | null>(
-    null,
-  );
+  const [submitted, setSubmitted] = React.useState<Record<string, FormDataEntryValue> | null>(null)
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    setSubmitted(data);
-  };
+    e.preventDefault()
+    const data = Object.fromEntries(new FormData(e.currentTarget))
+    setSubmitted(data)
+  }
 
   return (
     <Form className="w-full max-w-xs" onSubmit={onSubmit}>
@@ -24,5 +22,5 @@ export function FormPage() {
         </div>
       )}
     </Form>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Pagination} from "@heroui/react";
+import { Pagination } from '@heroui/react'
 
 export function PaginationPage() {
-  return <Pagination initialPage={1} total={10} />;
+  return <Pagination initialPage={1} total={10} />
 }

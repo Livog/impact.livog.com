@@ -1,5 +1,5 @@
-import { SheetPage } from "./client";
+import { SheetPage } from './client'
 
 export default function Page() {
-  return <SheetPage />;
+  return <SheetPage />
 }

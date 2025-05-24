@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@heroui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/react'
 
 export function TablePage() {
   return (
@@ -33,5 +33,5 @@ export function TablePage() {
         </TableRow>
       </TableBody>
     </Table>
-  );
+  )
 }

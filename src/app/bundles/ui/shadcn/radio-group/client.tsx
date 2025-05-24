@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export function RadioGroupPage() {
   return (
@@ -8,5 +8,5 @@ export function RadioGroupPage() {
       <RadioGroupItem value="1" />
       <RadioGroupItem value="2" />
     </RadioGroup>
-  );
-} 
+  )
+}

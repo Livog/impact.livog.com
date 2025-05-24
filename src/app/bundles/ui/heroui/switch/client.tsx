@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Switch} from "@heroui/react";
+import { Switch } from '@heroui/react'
 
 export function SwitchPage() {
-  return <Switch />;
+  return <Switch />
 }

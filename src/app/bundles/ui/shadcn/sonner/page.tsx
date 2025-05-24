@@ -1,5 +1,5 @@
-import { SonnerPage } from "./client";
+import { SonnerPage } from './client'
 
 export default function Page() {
-  return <SonnerPage />;
+  return <SonnerPage />
 }

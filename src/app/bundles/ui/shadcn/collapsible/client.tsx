@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible'
 
 export function CollapsiblePage() {
   return (
@@ -8,5 +8,5 @@ export function CollapsiblePage() {
       <CollapsibleTrigger>Toggle</CollapsibleTrigger>
       <CollapsibleContent>Content</CollapsibleContent>
     </Collapsible>
-  );
-} 
+  )
+}

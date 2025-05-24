@@ -1,5 +1,5 @@
-import { BadgePage } from "./client";
+import { BadgePage } from './client'
 
 export default function Page() {
-  return <BadgePage />;
+  return <BadgePage />
 }

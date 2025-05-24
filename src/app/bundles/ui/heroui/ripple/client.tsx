@@ -1,7 +1,11 @@
-"use client";
+'use client'
 
-import {Ripple} from "@heroui/react";
+import { Ripple } from '@heroui/react'
 
 export function RipplePage() {
-  return <Ripple as="button">Click me</Ripple>;
+  return (
+    <Ripple as="button" ripples={[]} onClear={() => {}}>
+      Click me
+    </Ripple>
+  )
 }

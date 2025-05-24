@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   CommandDialog,
@@ -9,7 +9,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut
-} from "@/components/ui/command"
+} from '@/components/ui/command'
 
 export function CommandPage() {
   return (

@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Drawer, DrawerTrigger, DrawerContent } from "@/components/ui/drawer";
+import { Drawer, DrawerTrigger, DrawerContent } from '@/components/ui/drawer'
 
 export function DrawerPage() {
   return (
@@ -8,5 +8,5 @@ export function DrawerPage() {
       <DrawerTrigger>Open Drawer</DrawerTrigger>
       <DrawerContent>Drawer content</DrawerContent>
     </Drawer>
-  );
-} 
+  )
+}

@@ -1,11 +1,6 @@
-"use client"
+'use client'
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 
 export function SelectPage() {
   return (
@@ -17,5 +12,5 @@ export function SelectPage() {
         <SelectItem value="orange">Orange</SelectItem>
       </SelectContent>
     </Select>
-  );
+  )
 }

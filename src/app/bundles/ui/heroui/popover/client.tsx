@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import {Popover, PopoverTrigger, PopoverContent} from "@heroui/react";
+import { Popover, PopoverTrigger, PopoverContent } from '@heroui/react'
 
 export function PopoverPage() {
   return (
@@ -15,5 +15,5 @@ export function PopoverPage() {
         </div>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable'
 
 export function ResizablePage() {
   return (
@@ -9,5 +9,5 @@ export function ResizablePage() {
       <ResizableHandle />
       <ResizablePanel>Panel 2</ResizablePanel>
     </ResizablePanelGroup>
-  );
-} 
+  )
+}

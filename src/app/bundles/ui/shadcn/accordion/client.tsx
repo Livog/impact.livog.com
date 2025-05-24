@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 
 export function AccordionPage() {
   return (
@@ -10,5 +10,5 @@ export function AccordionPage() {
         <AccordionContent>Accordion content</AccordionContent>
       </AccordionItem>
     </Accordion>
-  );
-} 
+  )
+}

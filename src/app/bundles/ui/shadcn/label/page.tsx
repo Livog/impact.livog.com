@@ -1,5 +1,5 @@
-import { LabelPage } from "./client";
+import { LabelPage } from './client'
 
 export default function Page() {
-  return <LabelPage />;
+  return <LabelPage />
 }

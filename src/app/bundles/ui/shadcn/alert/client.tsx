@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 
 export function AlertPage() {
   return (
@@ -8,5 +8,5 @@ export function AlertPage() {
       <AlertTitle>Alert title</AlertTitle>
       <AlertDescription>Alert description</AlertDescription>
     </Alert>
-  );
-} 
+  )
+}

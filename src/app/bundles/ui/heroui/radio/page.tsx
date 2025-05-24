@@ -1,5 +1,5 @@
-import { RadioPage } from "./client";
+import { RadioPage } from './client'
 
 export default function Page() {
-  return <RadioPage />;
+  return <RadioPage />
 }

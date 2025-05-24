@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Code} from "@heroui/react";
+import { Code } from '@heroui/react'
 
 export function CodePage() {
-  return <Code>&lt;Code /&gt;</Code>;
+  return <Code>&lt;Code /&gt;</Code>
 }

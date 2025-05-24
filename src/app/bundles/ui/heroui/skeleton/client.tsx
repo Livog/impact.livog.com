@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import {Skeleton} from "@heroui/react";
+import { Skeleton } from '@heroui/react'
 
 export function SkeletonPage() {
   return (
     <Skeleton className="rounded-lg">
-      <div className="h-24 rounded-lg bg-default-300" />
+      <div className="bg-default-300 h-24 rounded-lg" />
     </Skeleton>
-  );
+  )
 }

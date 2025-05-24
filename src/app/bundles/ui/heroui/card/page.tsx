@@ -1,5 +1,5 @@
-import { CardPage } from "./client";
+import { CardPage } from './client'
 
 export default function Page() {
-  return <CardPage />;
+  return <CardPage />
 }

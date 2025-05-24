@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink } from '@/components/ui/breadcrumb'
 
 export function BreadcrumbPage() {
   return (
@@ -11,5 +11,5 @@ export function BreadcrumbPage() {
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-  );
-} 
+  )
+}

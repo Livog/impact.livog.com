@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import {RadioGroup, Radio} from "@heroui/react";
+import { RadioGroup, Radio } from '@heroui/react'
 
 export function RadioPage() {
   return (
@@ -11,5 +11,5 @@ export function RadioPage() {
       <Radio value="london">London</Radio>
       <Radio value="tokyo">Tokyo</Radio>
     </RadioGroup>
-  );
+  )
 }

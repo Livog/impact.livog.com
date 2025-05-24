@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import {Snippet} from "@heroui/react";
+import { Snippet } from '@heroui/react'
 
 export function SnippetPage() {
-  return <Snippet>npm install heroui</Snippet>;
+  return <Snippet>npm install heroui</Snippet>
 }

@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog'
 
 export function DialogPage() {
   return (
@@ -8,5 +8,5 @@ export function DialogPage() {
       <DialogTrigger>Open Dialog</DialogTrigger>
       <DialogContent>Dialog content</DialogContent>
     </Dialog>
-  );
-} 
+  )
+}
