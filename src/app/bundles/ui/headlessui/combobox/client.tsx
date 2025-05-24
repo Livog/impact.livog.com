@@ -9,10 +9,10 @@ const people = [
   { id: 3, name: 'Therese Wunsch' },
   { id: 4, name: 'Benedict Kessler' },
   { id: 5, name: 'Katelyn Rohan' }
-]
+] as const
 
 export function ComboboxPage() {
-  const [selectedPerson, setSelectedPerson] = useState(people[0])
+  const [selectedPerson, setSelectedPerson] = useState<typeof people[0] | null>(people[0])
   const [query, setQuery] = useState('')
 
   const filteredPeople =
@@ -24,7 +24,11 @@ export function ComboboxPage() {
 
   return (
     <Combobox value={selectedPerson} onChange={setSelectedPerson} onClose={() => setQuery('')}>
-      <ComboboxInput aria-label="Assignee" displayValue={(person) => person?.name} onChange={(event) => setQuery(event.target.value)} />
+      <ComboboxInput
+        aria-label="Assignee"
+        displayValue={(person: typeof people[0] | null) => person?.name ?? ''}
+        onChange={(event) => setQuery(event.target.value)}
+      />
       <ComboboxOptions anchor="bottom" className="border empty:invisible">
         {filteredPeople.map((person) => (
           <ComboboxOption key={person.id} value={person} className="data-focus:bg-blue-100">
