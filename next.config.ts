@@ -2,9 +2,9 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   experimental: {
-    reactCompiler: true
-  }
-  /* config options here */
+    reactCompiler: true,
+    optimizePackageImports: ["@chakra-ui/react"],
+  },
 }
 
 export default nextConfig

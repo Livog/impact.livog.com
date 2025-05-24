@@ -75,6 +75,7 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
         ))}
       </CommandGroup>
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [results])
 
   return (
