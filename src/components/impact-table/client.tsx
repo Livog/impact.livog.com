@@ -1,6 +1,7 @@
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, Column } from '@tanstack/react-table'
+import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react'
 import { DataTable } from '@/components/data-table'
 
 export interface ImpactRow {
@@ -14,16 +15,31 @@ interface ImpactTableClientProps {
   deltaLabel: string
 }
 
+function SortableHeader({ column, children }: { column: Column<ImpactRow>; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span>{children}</span>
+      {column.getIsSorted() === 'desc' ? (
+        <ArrowDown className="h-4 w-4" />
+      ) : column.getIsSorted() === 'asc' ? (
+        <ArrowUp className="h-4 w-4" />
+      ) : (
+        <ArrowUpDown className="h-4 w-4 opacity-50" />
+      )}
+    </div>
+  )
+}
+
 export function ImpactTableClient({ data, deltaLabel }: ImpactTableClientProps) {
   const columns: ColumnDef<ImpactRow>[] = [
     {
       accessorKey: 'name',
-      header: () => <span>Name</span>,
+      header: ({ column }) => <SortableHeader column={column}>Name</SortableHeader>,
       cell: ({ row }) => <span className="font-mono">{row.getValue('name')}</span>
     },
     {
       accessorKey: 'bundle',
-      header: () => <span>Bundle size</span>,
+      header: ({ column }) => <SortableHeader column={column}>Bundle size</SortableHeader>,
       cell: ({ row }) => {
         const v = row.getValue<number>('bundle')
         return <span>{(v / 1024).toFixed(1)} kB</span>
@@ -31,8 +47,8 @@ export function ImpactTableClient({ data, deltaLabel }: ImpactTableClientProps) 
     },
     {
       accessorKey: 'delta',
-      header: () => <span>{`Δ vs ${deltaLabel}`}</span>,
-      enableSorting: false,
+      header: ({ column }) => <SortableHeader column={column}>{`Δ vs ${deltaLabel}`}</SortableHeader>,
+      enableSorting: true,
       cell: ({ row }) => {
         const v = row.getValue<number>('delta')
         return <span className="font-medium">{(v / 1024).toFixed(1)} kB</span>
