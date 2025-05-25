@@ -1,4 +1,5 @@
-import * as React from 'react'
+'use client'
+
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 
