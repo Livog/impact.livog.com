@@ -1,9 +1,6 @@
 import { getBuildStats } from '@/lib/get-build-stats'
 import { pathToRegexp } from 'path-to-regexp'
-
-function formatKB(bytes: number) {
-  return `${(bytes / 1024).toFixed(1)} kB`
-}
+import { ImpactTableClient, ImpactRow } from './client'
 
 function trimRoutePrefix(route: string, trimPrefix: string | string[] | false): string {
   if (trimPrefix === false) {
@@ -47,29 +44,14 @@ export async function ImpactTable({ routePattern, baselineRoute = '/base', trimP
 
   const baseline = stats.find((s) => s.route === baselineRoute) ?? stats[0]
 
-  const rows = stats
+  const rows: ImpactRow[] = stats
     .filter((s) => s.route !== baseline.route)
-    .map((s) => ({ ...s, trimmed: trimRoutePrefix(s.route, trimPrefix) }))
-    .sort((a, b) => a.trimmed.localeCompare(b.trimmed))
+    .map((s) => ({
+      name: trimRoutePrefix(s.route, trimPrefix),
+      bundle: s.firstLoad,
+      delta: s.firstLoad - baseline.firstLoad
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 
-  return (
-    <table className="w-full border-collapse text-sm">
-      <thead>
-        <tr>
-          <th className="pb-2 text-left">Route</th>
-          <th className="pb-2 text-right">First Load JS</th>
-          <th className="pb-2 text-right">Δ vs {baseline.route}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((r) => (
-          <tr key={r.route} className="border-t">
-            <td className="py-2 pr-4 font-mono">{r.trimmed}</td>
-            <td className="py-2 text-right">{formatKB(r.firstLoad)}</td>
-            <td className="py-2 text-right font-medium">{formatKB(r.firstLoad - baseline.firstLoad)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )
+  return <ImpactTableClient data={rows} deltaLabel={baseline.route} />
 }
