@@ -47,7 +47,10 @@ export async function ImpactTable({ routePattern, baselineRoute = '/base', trimP
 
   const baseline = stats.find((s) => s.route === baselineRoute) ?? stats[0]
 
-  const rows = stats.filter((s) => s.route !== baseline.route).sort((a, b) => b.firstLoad - a.firstLoad)
+  const rows = stats
+    .filter((s) => s.route !== baseline.route)
+    .map((s) => ({ ...s, trimmed: trimRoutePrefix(s.route, trimPrefix) }))
+    .sort((a, b) => a.trimmed.localeCompare(b.trimmed))
 
   return (
     <table className="w-full border-collapse text-sm">
@@ -61,7 +64,7 @@ export async function ImpactTable({ routePattern, baselineRoute = '/base', trimP
       <tbody>
         {rows.map((r) => (
           <tr key={r.route} className="border-t">
-            <td className="py-2 pr-4 font-mono">{trimRoutePrefix(r.route, trimPrefix)}</td>
+            <td className="py-2 pr-4 font-mono">{r.trimmed}</td>
             <td className="py-2 text-right">{formatKB(r.firstLoad)}</td>
             <td className="py-2 text-right font-medium">{formatKB(r.firstLoad - baseline.firstLoad)}</td>
           </tr>
