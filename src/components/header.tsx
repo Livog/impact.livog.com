@@ -9,7 +9,7 @@ export function Header() {
   return (
     <header className="border-grid bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b py-2 backdrop-blur">
       <Container className="flex h-12 items-center gap-4">
-        <Link href="/" className="font-semibold">
+        <Link href="/" className="text-xl font-bold">
           UI Impact
         </Link>
         <div className="mx-auto max-w-md flex-1">
