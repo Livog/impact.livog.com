@@ -1,6 +1,6 @@
 import { getBuildStats } from '@/lib/get-build-stats'
 import { pathToRegexp } from 'path-to-regexp'
-import { ImpactTableClient, ImpactRow } from './client'
+import { ImpactTableClient, type ImpactRow } from './client'
 
 function trimRoutePrefix(route: string, trimPrefix: string | string[] | false): string {
   if (trimPrefix === false) {
