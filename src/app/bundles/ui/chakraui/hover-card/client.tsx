@@ -13,6 +13,7 @@ export function HoverCardPage() {
           <HoverCard.Content>
             <HoverCard.Arrow />
             <div style={{ display: 'flex', gap: '1rem' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://pbs.twimg.com/profile_images/1244925541448286208/rzylUjaf_400x400.jpg"
                 alt="Chakra UI"
