@@ -10,7 +10,7 @@ import useSWR from 'swr'
 import { Badge } from './ui/badge'
 
 export interface SearchResult {
-  type: 'ui' | 'general'
+  type: 'ui' | 'form' | 'general'
   path: string[]
   sizeUp: number
 }
@@ -61,7 +61,12 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
             <span>
               <Badge
                 variant="default"
-                className={cn(r.type === 'ui' && 'bg-blue-500/10 text-blue-400', r.type === 'general' && 'bg-green-500/10 text-green-400')}>
+                className={cn(
+                  r.type === 'ui' && 'bg-blue-500/10 text-blue-400',
+                  r.type === 'form' && 'bg-yellow-500/10 text-yellow-400',
+                  r.type === 'general' && 'bg-green-500/10 text-green-400'
+                )}
+              >
                 {r.type}
               </Badge>{' '}
               {r.path.map((p) => (
@@ -85,14 +90,17 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
           <div>
             <CommandInput
               data-slot="command-input"
-              className={cn(
-                `h-11 w-full bg-background`
-              )}
+              className={cn('bg-background h-11 w-full')}
               placeholder={placeholder}
               value={query}
               onValueChange={handleInputChange}
             />
-            <Loader2 className={cn('absolute right-2 top-1/2 -translate-y-1/2 hidden text-muted-foreground size-4 shrink-0 animate-spin', isLoading && 'inline-flex')} />
+            <Loader2
+              className={cn(
+                'text-muted-foreground absolute top-1/2 right-2 hidden size-4 shrink-0 -translate-y-1/2 animate-spin',
+                isLoading && 'inline-flex'
+              )}
+            />
           </div>
         </PopoverAnchor>
         <PopoverContent
@@ -101,7 +109,8 @@ export function SearchCommand({ placeholder = 'Search components...', onSelect }
           sideOffset={4}
           className="w-[var(--radix-popper-anchor-width)] p-0"
           onOpenAutoFocus={(e) => e.preventDefault()}
-          onCloseAutoFocus={(e) => e.preventDefault()}>
+          onCloseAutoFocus={(e) => e.preventDefault()}
+        >
           <CommandList>{query && memoizedResults}</CommandList>
         </PopoverContent>
       </Popover>
