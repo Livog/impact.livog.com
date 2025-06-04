@@ -2,7 +2,7 @@ import { unstable_cache } from 'next/cache'
 import { getBuildStats } from './get-build-stats'
 import { match } from 'path-to-regexp'
 export interface SearchEntry {
-  type: string
+  type: 'ui' | 'form' | 'general'
   path: string[]
   sizeUp: number
 }
@@ -12,6 +12,7 @@ async function computeSearch(): Promise<SearchEntry[]> {
   const baseline = stats.find((s) => s.route === '/base') ?? { route: '/base', firstLoad: 102194, chunks: [] }
 
   const uiMatcher = match('/bundles/ui/:kit/:component')
+  const formMatcher = match('/bundles/form/:lib')
   const generalMatcher = match('/bundles/:category/:component')
 
   return stats
@@ -24,6 +25,17 @@ async function computeSearch(): Promise<SearchEntry[]> {
         return {
           type: 'ui',
           path: [kit, component],
+          sizeUp
+        }
+      }
+
+      const formMatch = formMatcher(s.route)
+      if (formMatch) {
+        const { lib } = formMatch.params
+        const sizeUp = s.firstLoad - baseline.firstLoad
+        return {
+          type: 'form',
+          path: [lib],
           sizeUp
         }
       }
