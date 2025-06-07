@@ -1,0 +1,139 @@
+  @custom-variant checked (&:is(:checked, [aria-checked='true'], [data-state='checked'], :indeterminate, [data-state='indeterminate']));
+  
+  @utility checkbox {
+    --check: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>");
+    --indeterminate: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14'/></svg>");
+    --size: 1rem;
+    --radius-factor: .25;
+    --padding-factor: .03;
+    --radius: calc(var(--size) * var(--radius-factor));
+    --pad: calc(var(--size) * var(--padding-factor));
+    @apply text-primary-foreground; /* checkmark color */
+
+    @apply bg-input/30 border-input border relative inline-block shrink-0 cursor-pointer appearance-none align-middle;
+    @apply size-[var(--size)] rounded-[var(--radius)] p-[var(--pad)];
+    transition: background-color .15s, box-shadow .15s;
+
+    &:before {
+      content: '';
+      @apply block size-full
+             scale-50 opacity-0
+             transition-transform duration-150
+             bg-current
+             mask-(--check) mask-center
+             mask-contain mask-no-repeat;
+    }
+
+    &:hover {
+      @apply bg-input/50;
+    }
+
+    &:focus-visible {
+      @apply outline-none ring-2 ring-ring ring-offset-background;
+    }
+
+    @variant checked {
+      @apply bg-primary border-primary;
+      &:before {
+        @apply scale-100 opacity-100 bg-current;
+      }
+    }
+
+    &:disabled {
+      @apply cursor-not-allowed opacity-50;
+    }
+  }
+
+  @utility checkbox-xs { --size: --spacing(3); }
+  @utility checkbox-sm { --size: --spacing(4); }
+  @utility checkbox-md { --size: --spacing(5); }
+  @utility checkbox-lg { --size: --spacing(6); }
+  @utility checkbox-xl { --size: --spacing(6.5); }
+
+  @utility checkbox-secondary {
+    @apply text-secondary-foreground border-secondary;
+    @variant checked {
+      @apply bg-secondary border-secondary text-secondary-foreground;
+    }
+  }
+
+  @utility checkbox-accent {
+    @apply text-accent-foreground border-accent;
+    @variant checked {
+      @apply bg-accent border-accent text-accent-foreground;
+    }
+  }
+
+  @utility checkbox-destructive {
+    @apply text-destructive-foreground border-destructive;
+    &:hover {
+      @apply bg-destructive/30;
+    }
+    @variant checked {
+      @apply bg-destructive border-destructive text-destructive-foreground;
+    }
+  }
+
+  @utility checkbox-info {
+    @apply bg-blue-50 text-blue-400 border-blue-400;
+    &:hover {
+      @apply bg-blue-200;
+    }
+    @variant checked {
+      @apply bg-blue-500 border-blue-500 text-white;
+    }
+    @variant dark {
+      &:hover {
+        @apply bg-blue-900/80;
+      }
+      @apply bg-blue-950 text-blue-400 border-blue-600;
+      @variant checked {
+        @apply bg-blue-600 border-blue-600 text-white;
+      }
+    }
+  }
+  
+  @utility checkbox-success {
+    @apply bg-green-50 border-lime-500;
+    &:hover {
+      @apply bg-green-200/50;
+      @variant checked {
+        @apply bg-green-600/90;
+      }
+    }
+    @variant checked {
+      @apply bg-green-600 border-green-600 text-white;
+    }
+    @variant dark {
+      &:hover { @apply bg-green-900/80; }
+      @apply bg-green-950 text-green-400 border-green-700;
+      @variant checked {
+        @apply bg-green-600 border-green-600 text-white;
+      }
+    }
+  }
+  
+  @utility checkbox-warning {
+    @apply bg-yellow-50 border-amber-500;
+    &:hover { @apply bg-yellow-200/50; }
+    @variant checked { @apply bg-yellow-600 border-yellow-600 text-white; }
+  
+    @variant dark {
+      @apply bg-yellow-950 border-yellow-700 text-amber-400;
+      &:hover { @apply bg-yellow-900/80; }
+      @variant checked { @apply bg-yellow-600 border-yellow-600 text-white; }
+    }
+  }
+  
+  
+@utility checkbox-error {
+  @apply bg-red-50 border-rose-500;
+  &:hover { @apply bg-red-200/50; }
+  @variant checked { @apply bg-red-600 border-red-600 text-white; }
+
+  @variant dark {
+    @apply bg-red-950 border-red-800 text-red-400;
+    &:hover { @apply bg-red-900/80; }
+    @variant checked { @apply bg-red-600 border-red-600 text-white; }
+  }
+}

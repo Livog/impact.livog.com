@@ -1,0 +1,51 @@
+@utility popover {
+  @apply relative inline-block;
+  --popover-duration: 150ms;
+  --popover-box-radius: 0.25rem;
+}
+
+/* Wrapper (portal container) */
+@utility popover-wrapper {
+  @apply absolute top-0 left-0 z-10 min-w-max overflow-visible bg-transparent invisible !block
+         transition-[display,visibility] transition-discrete duration-[var(--popover-duration)]
+         will-change-transform open:visible;
+}
+
+/* Panel */
+@utility popover-content {
+  @apply bg-popover border-border text-popover-foreground rounded-[var(--popover-box-radius)]
+         border p-2 whitespace-pre-wrap outline-none overflow-visible pointer-events-none
+         scale-90 opacity-0 transform-gpu transition-[transform,scale,opacity,translate]
+         duration-[var(--popover-duration)];
+
+  --origin-x: 50%;
+  --origin-y: 50%;
+  transform-origin: var(--origin-x) var(--origin-y);
+
+  &[data-state='open'] { @apply pointer-events-auto scale-100 opacity-100 translate-x-0 translate-y-0; }
+
+  /* Side offsets & origins */
+  &:where([data-side='top'])    { --origin-y: 100%; @apply  translate-y-1; }
+  &:where([data-side='bottom']) { --origin-y:   0%; @apply -translate-y-1 starting:-translate-y-1; }
+  &:where([data-side='left'])   { --origin-x: 100%; @apply  translate-x-1 starting:translate-x-1; }
+  &:where([data-side='right'])  { --origin-x:   0%; @apply -translate-x-1 starting:-translate-x-1; }
+
+  /* Alignment tweaks */
+  &:is([data-side='top'],[data-side='bottom'])[data-align='start']  { --origin-x:   0%; }
+  &:is([data-side='top'],[data-side='bottom'])[data-align='end']    { --origin-x: 100%; }
+  &:is([data-side='left'],[data-side='right'])[data-align='start']  { --origin-y:   0%; }
+  &:is([data-side='left'],[data-side='right'])[data-align='end']    { --origin-y: 100%; }
+
+  /* Arrow positioning (inherits border/background) */
+  &:is([data-side='top'])    .popover-arrow { @apply -bottom-3 -translate-y-1/2 border-t-0 border-l-0; }
+  &:is([data-side='bottom']) .popover-arrow { @apply -top-3    translate-y-1/2  border-r-0 border-b-0; }
+  &:is([data-side='right'])  .popover-arrow { @apply -left-3   translate-x-1/2  border-t-0 border-r-0; }
+  &:is([data-side='left'])   .popover-arrow { @apply -right-3  -translate-x-1/2 border-b-0 border-l-0; }
+}
+
+/* Arrow */
+@utility popover-arrow {
+  @apply absolute size-3 rotate-45 border border-inherit bg-inherit;
+  left: var(--arrow-x);
+  top:  var(--arrow-y);
+}
