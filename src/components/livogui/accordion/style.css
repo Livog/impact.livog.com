@@ -1,0 +1,41 @@
+@utility collapsible {
+  @apply relative;
+  .peer {
+    @variant checked {
+      ~ .collapsible-trigger svg {
+        @apply rotate-90;
+      }
+    }
+  }
+}
+
+@utility collapsible-trigger {
+  @apply grid cursor-pointer grid-flow-col grid-cols-[minmax(0,_1fr)_auto]
+        items-center select-none;
+
+  svg {
+    @apply size-8 justify-self-end p-1 text-foreground transition-transform
+          duration-[var(--animation-duration)] outline-none
+          peer-checked:rotate-90;
+  }
+}
+
+@utility collapsible-content {
+  @apply grid origin-top transform-gpu grid-rows-[0fr] overflow-hidden
+        transition-all duration-[var(--animation-duration)] ease-in-out
+        peer-checked:grid-rows-[1fr] peer-[:not(:checked)]:!py-0;
+}
+
+@utility collapsible-content-fade {
+  @apply opacity-0 duration-[var(--animation-duration)] *:invisible *:opacity-0
+        *:transition-all peer-checked:opacity-100
+        peer-checked:*:visible peer-checked:*:opacity-100;
+}
+
+@utility collapsible-content-scale-fade {
+  @apply origin-top scale-95 opacity-0 duration-[var(--animation-duration)]
+        *:invisible *:opacity-0 *:transition-all
+        *:duration-[var(--animation-duration)] *:ease-in-out
+        peer-checked:scale-100 peer-checked:opacity-100
+        peer-checked:[&>*]:visible peer-checked:[&>*]:opacity-100;
+}
