@@ -1,0 +1,94 @@
+@custom-variant switch-checked (&:is(:checked, [aria-checked="true"], [data-state="checked"], :indeterminate, [data-state="indeterminate"],:has(>input:checked)));
+
+@utility switch {
+  @apply inline-grid relative shrink-0 cursor-pointer select-none
+         transition-[color,grid-template-columns,background-color] duration-200
+         place-content-center bg-muted;
+  appearance       : none;
+  --gap            : 0.09;
+  --radius         : 99rem;
+  --size           : --spacing(6);
+  --toggle-p       : calc(var(--size)*var(--gap,0.125));
+  --border-width   : 0px;
+  --radius-max     : calc(var(--radius)*3);
+  --input-color    : var(--color-foreground);
+
+  width            : calc((var(--size)*2) - (var(--border-width) + var(--toggle-p))*2);
+  height           : var(--size);
+  padding          : var(--toggle-p);
+  border           : var(--border-width) solid currentColor;
+  border-radius    : calc(var(--radius)
+                        + min(var(--toggle-p),var(--radius-max))
+                        + min(var(--border-width),var(--radius-max)));
+  color            : var(--input-color);
+  grid-template-columns : 0fr 1fr 1fr;
+
+  /* — universal children — */
+  & > * {
+    z-index: 1;
+    cursor: pointer;
+    appearance: none;
+    background: transparent;
+    border: none;
+    height: 100%;
+    padding: .125rem;
+    transition: opacity .2s, rotate .4s;
+    grid-column: 2 / span 1;
+    grid-row-start: 1;
+  }
+
+  /* left / right icons */
+  & > svg:nth-child(2) { @apply text-background; }
+  & > svg:nth-child(3) { opacity: 0; rotate: -15deg; }
+
+  &:focus-visible,&:has(:focus-visible) {
+    @apply outline-none border-ring ring-ring/50 ring-[3px];
+  }
+  & > :focus { outline: none; }
+
+  /* icon swap */
+  &:has(:checked) > svg:nth-child(2) { opacity: 0;  rotate:  15deg; }
+  &:has(:checked) > svg:nth-child(3) { opacity: 1;  rotate:   0deg; }
+
+  /* — thumb — */
+  @variant before {
+    @apply relative bg-background aspect-square h-full rounded-[var(--radius)];
+    grid-row-start : 1;
+    grid-column-start : 2;
+    inset-inline-start : 0;
+    translate      : 0;
+    transition     : background-color .2s, translate .2s, inset-inline-start .2s;
+    background-color : currentColor;
+    background-image  : none, var(--fx-noise);
+    background-size   : auto, calc(var(--noise)*100%);
+  }
+
+  /* — checked state — */
+  @variant switch-checked {
+    @apply bg-foreground text-background;
+    grid-template-columns : 1fr 1fr 0fr;
+
+    @variant before { 
+      background-color : currentColor;
+    }
+  }
+
+  @variant indeterminate { grid-template-columns : .5fr 1fr .5fr; }
+
+  @variant disabled {
+    @apply cursor-not-allowed opacity-30;
+    @apply bg-foreground/50;
+
+    @variant before {
+      border : var(--border-width) solid currentColor;
+    }
+  }
+}
+
+@media (forced-colors:active){
+  .switch:focus-visible{ outline:2px solid; outline-offset:2px; }
+  .switch::before{ outline:1px solid currentColor; }
+}
+@media print{
+  .switch::before{ outline:.25rem solid; outline-offset:-1rem; }
+}
