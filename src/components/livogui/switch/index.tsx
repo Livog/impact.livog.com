@@ -21,7 +21,7 @@ export function Switch({
 }: SwitchProps) {
   const autoId = useId()
   const generatedId = id ?? autoId
-  const style: CSSProperties = { ...(styleProp ?? {}) }
+  const style: CSSProperties & { [key: `--${string}`]: string | number } = { ...(styleProp ?? {}) }
 
   const sizeValues = {
     xs: '1rem',
