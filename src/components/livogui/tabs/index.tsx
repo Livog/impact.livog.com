@@ -14,3 +14,6 @@ interface TabsCtx {
 }
 
 type BaseProps = Omit<ComponentPropsWithRef<'div'>, 'onChange'>
+
+const TabsContext = createContext<TabsCtx | null>(null)
+
