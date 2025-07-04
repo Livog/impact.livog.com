@@ -8,13 +8,13 @@
  *   resulting in worse performance.
  */
 
-import type { Side } from '@floating-ui/dom'
-
 import React, {
   createContext,
-  useContext,
+  use,
+  useCallback,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
   type ReactElement,
@@ -22,9 +22,14 @@ import React, {
   type RefObject
 } from 'react'
 import { clsx } from 'clsx'
-import { useFloatingPosition } from './use-floating-position'
+import { type Side, type Align, usePopoverPosition } from './use-popover-position'
 
-type Align = 'start' | 'center' | 'end'
+const tabbableSelector =
+  'a[href],button:not([disabled]),input:not([disabled]):not([type="hidden"]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+
+const getTabbables = (container: HTMLElement): HTMLElement[] => {
+  return Array.from(container.querySelectorAll<HTMLElement>(tabbableSelector))
+}
 
 interface Refs {
   trigger: RefObject<HTMLElement | null>
@@ -35,7 +40,7 @@ interface Refs {
 interface Ctx {
   id: string
   open: boolean
-  setOpen: (open: boolean) => void
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
   refs: Refs
   side: Side
   align: Align
@@ -48,7 +53,7 @@ interface Ctx {
 const PopoverContext = createContext<Ctx | null>(null)
 
 const usePopoverContext = () => {
-  const ctx = useContext(PopoverContext)
+  const ctx = use(PopoverContext)
   if (!ctx) throw new Error('Component must be inside <Popover>')
   return ctx
 }
@@ -66,6 +71,35 @@ interface PopoverProps {
   escClose?: boolean
 }
 
+type ValueOrUpdater<T> = T | ((prev: T) => T)
+
+/**
+ * Generic controlled/uncontrolled value hook – mirrors React state API while
+ * supporting a `value` / `defaultValue` pattern.
+ */
+function useControllableState<T>(
+  controlledValue: T | undefined,
+  defaultValue: T,
+  onChange?: (value: T) => void
+) {
+  const isControlled = controlledValue !== undefined
+  const [internalValue, setInternalValue] = useState(defaultValue)
+
+  const value = isControlled ? (controlledValue as T) : internalValue
+
+  const setValue = useCallback(
+    (next: ValueOrUpdater<T>) => {
+      const newValue = typeof next === 'function' ? (next as (prev: T) => T)(value) : next
+
+      if (!isControlled) setInternalValue(newValue)
+      onChange?.(newValue)
+    },
+    [isControlled, value, onChange]
+  )
+
+  return [value, setValue] as const
+}
+
 export const Popover = ({
   children,
   open: controlledOpen,
@@ -80,38 +114,31 @@ export const Popover = ({
 }: PopoverProps): ReactElement => {
   const id = `popover-${useId().replace(/[:«»]/g, '')}`
 
-  const [openState, setOpenState] = useState<boolean>(controlledOpen ?? defaultOpen ?? false)
-
-  useEffect(() => {
-    if (controlledOpen === undefined) return
-    setOpenState(controlledOpen)
-  }, [controlledOpen])
+  const [open, setOpen] = useControllableState(controlledOpen, defaultOpen, onOpenChange)
 
   const trigger = useRef<HTMLElement>(null)
   const anchor = useRef<HTMLElement>(null)
   const arrow = useRef<HTMLElement>(null)
-  const refs = { trigger, anchor, arrow }
+  const refs = useMemo<Refs>(() => ({ trigger, anchor, arrow }), [])
 
-  const setOpen = (value: boolean) => {
-    if (value === openState) return
-    setOpenState(value)
-    onOpenChange?.(value)
-  }
+  const ctxValue = useMemo<Ctx>(
+    () => ({
+      id,
+      open,
+      setOpen,
+      refs,
+      side,
+      align,
+      offset,
+      smart,
+      backdropClose,
+      escClose
+    }),
+    [id, open, setOpen, refs, side, align, offset, smart, backdropClose, escClose]
+  )
 
   return (
-    <PopoverContext.Provider
-      value={{
-        id,
-        open: openState,
-        setOpen,
-        refs,
-        side,
-        align,
-        offset,
-        smart,
-        backdropClose,
-        escClose
-      }}>
+    <PopoverContext.Provider value={ctxValue}>
       <div className="popover">{children}</div>
     </PopoverContext.Provider>
   )
@@ -127,14 +154,20 @@ export const PopoverTrigger = ({
   className = 'button button-outline',
   ...rest
 }: TriggerProps): ReactElement => {
-  const { id, open, setOpen, refs } = usePopoverContext()
+  const { id, setOpen, refs } = usePopoverContext()
 
   return (
     <Comp
       ref={refs.trigger}
       aria-controls={id}
-      aria-expanded={open ? 'true' : 'false'}
-      onClick={() => setOpen(!open)}
+      aria-haspopup="dialog"
+      onClick={() => setOpen((prev) => !prev)}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          setOpen((prev) => !prev)
+        }
+      }}
       className={clsx('popover-trigger', className)}
       {...rest}>
       {children}
@@ -166,12 +199,12 @@ export const PopoverContent = ({
   className,
   style,
   ...rest
-}: ContentProps): ReactElement => {
+}: ContentProps): ReactElement | null => {
   const { id, open, setOpen, refs, side, align, offset, smart, backdropClose, escClose } = usePopoverContext()
 
   const referenceRef = refs.anchor.current ? refs.anchor : refs.trigger
 
-  const { floatingRef, resolvedSide: sideResolved } = useFloatingPosition({
+  const { dialogRef, setDialogRef, resolvedSide, openPopover, closePopover, active } = usePopoverPosition({
     open,
     refs,
     side,
@@ -180,34 +213,106 @@ export const PopoverContent = ({
     smart
   })
 
-  useEffect(() => {
-    if (!open) return
-    const el = floatingRef.current
-    if (!el) return
+  const [mounted, setMounted] = useState(open)
+  const previouslyFocused = useRef<HTMLElement | null>(null)
 
-    const handleKeyDown = (e: KeyboardEvent) => e.key === 'Escape' && escClose && setOpen(false)
+  useEffect(() => {
+    if (open) setMounted(true)
+  }, [open])
+
+  useEffect(() => {
+    const el = dialogRef.current
+    if (!el || !mounted) return
+
+    if (open) {
+      previouslyFocused.current = document.activeElement as HTMLElement | null
+      openPopover()
+
+      // Wait two animation frames: the first allows the popover to open,
+      // the second guarantees the content is fully rendered before we
+      // attempt to shift focus.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const next = getTabbables(el)[0] ?? el
+          next.focus({ preventScroll: true })
+        })
+      })
+    } else {
+      closePopover(() => {
+        setMounted(false)
+        previouslyFocused.current?.focus()
+      })
+    }
+
+    if (!open) return
+
+    // Use capture phase so we reliably catch events before other handlers stopPropagation
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && escClose) {
+        setOpen(false)
+        return
+      }
+      if (e.key === 'Tab') {
+        const tabbables = getTabbables(el)
+        if (tabbables.length === 0) {
+          e.preventDefault()
+          el.focus()
+          return
+        }
+        const first = tabbables[0]
+        const last = tabbables[tabbables.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          }
+        } else if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
 
     const handleClick = (e: MouseEvent) => {
-      if (!el.matches(':popover-open')) return
-      const t = e.target as Node
-      if (backdropClose && !el.contains(t) && !referenceRef.current?.contains(t)) setOpen(false)
+      if (!backdropClose || !el.matches(':popover-open')) return
+      const target = e.target as Node
+      if (el.contains(target) || referenceRef.current?.contains(target)) return
+
+      setTimeout(() => setOpen(false), 0)
     }
 
-    addEventListener('keydown', handleKeyDown)
-    addEventListener('click', handleClick)
+    addEventListener('keydown', handleKeyDown, true)
+    addEventListener('click', handleClick, true)
 
     return () => {
-      removeEventListener('keydown', handleKeyDown)
-      removeEventListener('click', handleClick)
+      removeEventListener('keydown', handleKeyDown, true)
+      removeEventListener('click', handleClick, true)
     }
-  }, [open, setOpen, referenceRef, escClose, backdropClose, floatingRef])
+  }, [open, setOpen, mounted, referenceRef, escClose, backdropClose, openPopover, closePopover, dialogRef])
+
+  useEffect(() => {
+    return () => {
+      closePopover()
+      previouslyFocused.current?.focus()
+    }
+  }, [closePopover])
+
+  if (!mounted) return null
 
   return (
-    <Comp ref={floatingRef} id={id} popover="manual" className="popover-wrapper" {...rest}>
+    <Comp
+      ref={setDialogRef}
+      id={id}
+      role="dialog"
+      popover="manual"
+      tabIndex={-1}
+      className="popover-wrapper"
+      {...rest}
+    >
       <div
-        data-state={open ? 'open' : 'closed'}
+        data-state={active ? 'open' : 'closed'}
         data-align={align}
-        data-side={sideResolved}
+        data-side={resolvedSide}
         style={style}
         className={clsx('popover-content border-base-300 bg-base-100', className)}>
         {children}
