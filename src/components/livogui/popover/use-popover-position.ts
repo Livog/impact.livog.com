@@ -63,21 +63,29 @@ function getPositionForSide(
   return { x, y }
 }
 
-/** Checks if the popover fits within the viewport on the primary axis for a given side. */
+/** Checks if the popover fits within the viewport on the primary axis for a given side and, for left/right, that it does not overlap the reference vertically. */
 function isPositionGood(
   position: Position,
   floatRect: DOMRect,
   side: Side,
   vw: number,
   vh: number,
-  padding: number
+  padding: number,
+  refRect: DOMRect
 ): boolean {
   const { x, y } = position
-  if (side === 'top' || side === 'bottom') {
-    return y >= padding && y + floatRect.height <= vh - padding
+  if (side === 'top') {
+    return y >= padding
   }
-  // side === 'left' || 'right'
-  return x >= padding && x + floatRect.width <= vw - padding
+  if (side === 'bottom') {
+    return y + floatRect.height <= vh - padding
+  }
+  // left / right: need enough horizontal space without covering the reference horizontally
+  if (side === 'left') {
+    return x >= padding && x + floatRect.width <= refRect.left
+  }
+  // side === 'right'
+  return x + floatRect.width <= vw - padding && x >= refRect.right
 }
 
 /** Main positioning function with improved structure. */
@@ -94,16 +102,20 @@ function computePosition(
 ) {
   const refRect = reference.getBoundingClientRect()
   const floatRect = floating.getBoundingClientRect()
+
   const arrowHalf = arrow ? arrow.offsetHeight / 2 : 0
   const spacing = offset + arrowHalf
 
   const vw = document.documentElement.clientWidth
   const vh = document.documentElement.clientHeight
 
-  // Define the order of sides to try when smart positioning is enabled
+  // Define the order of sides to try when smart positioning is enabled. We only
+  // fall back to the opposite side on the same axis before considering the
+  // orthogonal axis. This avoids jarring flips from *bottom* ↔︎ *right* or
+  // *top* ↔︎ *left* while scrolling.
   const sideOrders: Record<Side, Side[]> = {
-    top: ['top', 'bottom', 'left', 'right'],
-    bottom: ['bottom', 'top', 'right', 'left'],
+    top: ['top', 'bottom'],
+    bottom: ['bottom', 'top'],
     left: ['left', 'right', 'top', 'bottom'],
     right: ['right', 'left', 'bottom', 'top'],
   }
@@ -116,7 +128,7 @@ function computePosition(
     const candidates = sideOrders[side]
     for (const candidate of candidates) {
       const candidatePosition = getPositionForSide(refRect, floatRect, candidate, align, spacing)
-      if (isPositionGood(candidatePosition, floatRect, candidate, vw, vh, padding)) {
+      if (isPositionGood(candidatePosition, floatRect, candidate, vw, vh, padding, refRect)) {
         chosenSide = candidate
         position = candidatePosition
         break
@@ -146,11 +158,38 @@ function computePosition(
   // Final clamp to ensure the popover is fully within the viewport
   x = Math.max(padding, Math.min(x, vw - padding - floatRect.width))
 
-  if (arrow && (chosenSide === 'left' || chosenSide === 'right')) {
-    const allowance = arrow.offsetHeight
-    y = Math.max(padding - allowance, Math.min(y, vh - padding - floatRect.height + allowance))
+  // For popovers rendered above or below the reference we still need to keep the
+  // panel fully within the viewport. When the popover is rendered to the left or
+  // right we deliberately avoid vertical clamping so the panel remains visually
+  // “attached” to the reference element even as it moves partially off-screen
+  // during scroll.
+  if (chosenSide === 'top' || chosenSide === 'bottom') {
+    // Only keep the popover fully inside the viewport while the reference is
+    // itself fully visible. Once the trigger scrolls out of view we allow the
+    // popover to follow it off-screen instead of pinning it to the viewport.
+    const referenceFullyVisibleVertically = refRect.top >= padding && refRect.bottom <= vh - padding
+    if (referenceFullyVisibleVertically) {
+      y = Math.max(padding, Math.min(y, vh - padding - floatRect.height))
+    }
   } else {
-    y = Math.max(padding, Math.min(y, vh - padding - floatRect.height))
+    // Keep the popover vertically “attached” to the reference element when it is
+    // rendered to its left or right. We let the panel move only within a range
+    // equal to the reference’s height so that either the reference’s top aligns
+    // with the popover’s bottom or its bottom aligns with the popover’s top.
+    const topBound = refRect.bottom - floatRect.height
+    const bottomBound = arrow ? refRect.bottom - arrow.offsetHeight : refRect.bottom
+
+    // Keep inside viewport first
+    if (y < padding) y = padding
+    if (y + floatRect.height > vh - padding) y = vh - padding - floatRect.height
+
+    // Then clamp so it never detaches below the reference
+    y = Math.min(Math.max(y, topBound), bottomBound)
+
+    if (arrow) {
+      const allowance = arrow.offsetHeight
+      y = Math.min(Math.max(y, topBound - allowance), bottomBound)
+    }
   }
 
   // Position the arrow
@@ -184,7 +223,6 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
   const [active, setActive] = useState(false)
 
   const cleanupRef = useRef<() => void>(() => {})
-
   // Tracks any pending close animation so it can be cancelled if the popover reopens mid-animation
   const pendingCloseRef = useRef<() => void | null>(null)
 
@@ -196,35 +234,8 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
       // Bail out early if the reference element is fully outside the viewport
       if (!dialog || !reference) return
 
-      const rect = reference.getBoundingClientRect()
-      const vw = document.documentElement.clientWidth || window.innerWidth
-      const vh = document.documentElement.clientHeight || window.innerHeight
-
-      // Determine if we should keep following the reference. For left/right popovers we allow
-      // tracking as long as some part of the reference is still visible vertically (to maintain
-      // the arrow connection). For top/bottom popovers we stick to the stricter rule that the
-      // reference must remain fully within the padded viewport.
-
-      const isHorizontal = side === 'left' || side === 'right'
-
-      let shouldReposition: boolean
-
-      if (isHorizontal) {
-        // Continue to reposition while any part of the reference is within the padded vertical viewport.
-        const verticallyVisible = rect.bottom > padding && rect.top < vh - padding
-        shouldReposition = verticallyVisible
-      } else {
-        // Require full visibility for top/bottom popovers.
-        shouldReposition =
-          rect.top >= padding &&
-          rect.left >= padding &&
-          rect.bottom <= vh - padding &&
-          rect.right <= vw - padding
-      }
-
-      if (!shouldReposition) return
-
       const arrow = refs.arrow.current
+
       const {
         x,
         y,
@@ -232,6 +243,16 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
         arrowX,
         arrowY
       } = computePosition(reference, dialog, arrow, side, align, offset, smart, fixed, padding)
+
+
+      // Update side/align attributes on the popover panel synchronously so the arrow orientation
+      // matches the position *before* the next React paint. This prevents a one-frame flicker in
+      // Safari when smart positioning flips the side (e.g. desired "left" → chosen "top").
+      const panel = dialog.querySelector('.popover-content') as HTMLElement | null
+      if (panel) {
+        panel.dataset.side = s
+        panel.dataset.align = align
+      }
 
       dialog.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`
       dialog.style.setProperty('--popover-reference-width', `${reference.offsetWidth}px`)
@@ -246,10 +267,14 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
         else arrow.style.setProperty('--arrow-x', `${Math.round(arrowX)}px`)
         if (arrowY == null) arrow.style.removeProperty('--arrow-y')
         else arrow.style.setProperty('--arrow-y', `${Math.round(arrowY)}px`)
+        // Force a reflow to ensure Safari applies the updated CSS vars immediately.
+        // Reading a layout property after the writes guarantees the browser flushes the styles.
+        void arrow.offsetHeight
+        void arrow.offsetWidth
       }
       setResolvedSide(s)
     },
-    [refs.anchor, refs.trigger, refs.arrow, side, align, offset, smart, padding]
+    [refs.anchor, refs.trigger, refs.arrow, side, align, offset, smart, padding, resolvedSide, open]
   )
 
   const handleResize = useCallback(() => measure(false), [measure])
@@ -342,9 +367,12 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
     [cleanup]
   )
 
+  // Re-measure whenever the popover opens _or_ when the resolvedSide flips due to smart positioning
+  // This guards against a brief mismatch between the computed side and the rendered side,
+  // which causes incorrect arrow placement in Safari when the fallback side differs.
   useEffect(() => {
     if (open) measure(false)
-  }, [open, measure])
+  }, [open, resolvedSide, measure])
 
   const setDialogRef = useCallback(
     (el: HTMLDialogElement | null) => {
