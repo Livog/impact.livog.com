@@ -1,13 +1,5 @@
 'use client'
 
-/**
- * ⚠️  Popover implementation notes
- * - Keep the dialog in **manual** mode (`popover="manual"`). Auto mode closes on Escape/backdrop click *before*
- *   we rerun `computePosition`, causing a flash. Manual mode lets the `useLayoutEffect` reposition first.
- * - Stick with Floating‑UI strategy **'absolute'**. Using **'fixed'** adds scroll listeners and extra reflows,
- *   resulting in worse performance.
- */
-
 import React, {
   createContext,
   use,
@@ -21,14 +13,30 @@ import React, {
   type ReactNode,
   type RefObject
 } from 'react'
+import { createPortal } from 'react-dom'
 import { clsx } from 'clsx'
 import { type Side, type Align, usePopoverPosition } from './use-popover-position'
 
-const tabbableSelector =
+const focusableSelector =
   'a[href],button:not([disabled]),input:not([disabled]):not([type="hidden"]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
 
-const getTabbables = (container: HTMLElement): HTMLElement[] => {
-  return Array.from(container.querySelectorAll<HTMLElement>(tabbableSelector))
+const getFocusableElements = (container: HTMLElement): HTMLElement[] => {
+  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector))
+}
+
+/** Focus the first focusable descendant of `container`, or the container itself. */
+const focusFirstFocusable = (container: HTMLElement) => {
+  const next = getFocusableElements(container)[0] ?? container
+  next.focus({ preventScroll: true })
+}
+
+/** Two-frame focus helper – waits for the element to be fully rendered. */
+const focusFirstFocusableNextFrame = (container: HTMLElement) => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      focusFirstFocusable(container)
+    })
+  })
 }
 
 interface Refs {
@@ -77,11 +85,7 @@ type ValueOrUpdater<T> = T | ((prev: T) => T)
  * Generic controlled/uncontrolled value hook – mirrors React state API while
  * supporting a `value` / `defaultValue` pattern.
  */
-function useControllableState<T>(
-  controlledValue: T | undefined,
-  defaultValue: T,
-  onChange?: (value: T) => void
-) {
+function useControllableState<T>(controlledValue: T | undefined, defaultValue: T, onChange?: (value: T) => void) {
   const isControlled = controlledValue !== undefined
   const [internalValue, setInternalValue] = useState(defaultValue)
 
@@ -189,22 +193,16 @@ export const PopoverAnchor = ({ as: Comp = 'span', children, className, ...rest 
   )
 }
 
-interface ContentProps extends React.ComponentPropsWithRef<'dialog'> {
+interface ContentProps extends React.ComponentPropsWithRef<'div'> {
   as?: React.ElementType
 }
 
-export const PopoverContent = ({
-  as: Comp = 'dialog',
-  children,
-  className,
-  style,
-  ...rest
-}: ContentProps): ReactElement | null => {
+export const PopoverContent = ({ as: Comp = 'div', children, className, style, ...rest }: ContentProps): ReactElement | null => {
   const { id, open, setOpen, refs, side, align, offset, smart, backdropClose, escClose } = usePopoverContext()
 
   const referenceRef = refs.anchor.current ? refs.anchor : refs.trigger
 
-  const { dialogRef, setDialogRef, resolvedSide, openPopover, closePopover, active } = usePopoverPosition({
+  const { dialogRef, setDialogRef, openPopover, closePopover } = usePopoverPosition({
     open,
     refs,
     side,
@@ -228,15 +226,7 @@ export const PopoverContent = ({
       previouslyFocused.current = document.activeElement as HTMLElement | null
       openPopover()
 
-      // Wait two animation frames: the first allows the popover to open,
-      // the second guarantees the content is fully rendered before we
-      // attempt to shift focus.
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const next = getTabbables(el)[0] ?? el
-          next.focus({ preventScroll: true })
-        })
-      })
+      focusFirstFocusableNextFrame(el)
     } else {
       closePopover(() => {
         setMounted(false)
@@ -253,7 +243,7 @@ export const PopoverContent = ({
         return
       }
       if (e.key === 'Tab') {
-        const tabbables = getTabbables(el)
+        const tabbables = getFocusableElements(el)
         if (tabbables.length === 0) {
           e.preventDefault()
           el.focus()
@@ -274,7 +264,7 @@ export const PopoverContent = ({
     }
 
     const handleClick = (e: MouseEvent) => {
-      if (!backdropClose || !el.matches(':popover-open')) return
+      if (!backdropClose || !open) return
       const target = e.target as Node
       if (el.contains(target) || referenceRef.current?.contains(target)) return
 
@@ -299,25 +289,13 @@ export const PopoverContent = ({
 
   if (!mounted) return null
 
-  return (
-    <Comp
-      ref={setDialogRef}
-      id={id}
-      role="dialog"
-      popover="manual"
-      tabIndex={-1}
-      className="popover-wrapper"
-      {...rest}
-    >
-      <div
-        data-state={active ? 'open' : 'closed'}
-        data-align={align}
-        data-side={resolvedSide}
-        style={style}
-        className={clsx('popover-content border-base-300 bg-base-100', className)}>
+  return createPortal(
+    <Comp ref={setDialogRef} id={id} role="dialog" tabIndex={-1} className="popover-wrapper" {...rest}>
+      <div data-align={align} data-side={side} style={style} className={clsx('popover-content border-base-300 bg-base-100', className)}>
         {children}
       </div>
-    </Comp>
+    </Comp>,
+    document.body
   )
 }
 

@@ -1,7 +1,10 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
 import { getOverflowAncestors } from '@floating-ui/utils/dom'
+import { useCallback, useEffect, useRef } from 'react'
+
+// Minimum inset distance (in px) that the arrow must maintain from the edges of the popover panel.
+const MIN_ARROW_INSET = 4
 
 export type Side = 'top' | 'bottom' | 'left' | 'right'
 export type Align = 'start' | 'center' | 'end'
@@ -35,13 +38,7 @@ function alignAxis(start: number, refSize: number, floatSize: number, align: Ali
 }
 
 /** Computes the initial position for a given side. */
-function getPositionForSide(
-  refRect: DOMRect,
-  floatRect: DOMRect,
-  side: Side,
-  align: Align,
-  spacing: number
-): Position {
+function getPositionForSide(refRect: DOMRect, floatRect: DOMRect, side: Side, align: Align, spacing: number): Position {
   if (side === 'top') {
     const x = alignAxis(refRect.left, refRect.width, floatRect.width, align)
     const y = refRect.top - floatRect.height - spacing
@@ -117,7 +114,7 @@ function computePosition(
     top: ['top', 'bottom'],
     bottom: ['bottom', 'top'],
     left: ['left', 'right', 'top', 'bottom'],
-    right: ['right', 'left', 'bottom', 'top'],
+    right: ['right', 'left', 'bottom', 'top']
   }
 
   let chosenSide = side
@@ -196,7 +193,7 @@ function computePosition(
   let arrowX: number | undefined
   let arrowY: number | undefined
   if (arrow) {
-    const inset = Math.max(4, arrowHalf)
+    const inset = Math.max(MIN_ARROW_INSET, arrowHalf)
     if (chosenSide === 'top' || chosenSide === 'bottom') {
       const targetX = refRect.left + refRect.width / 2
       arrowX = targetX - x - arrowHalf
@@ -218,9 +215,7 @@ function computePosition(
 }
 
 export const usePopoverPosition = ({ open, refs, side, align, offset, smart, padding = 8 }: UsePopoverPositionArgs) => {
-  const dialogRef = useRef<HTMLDialogElement | null>(null)
-  const [resolvedSide, setResolvedSide] = useState<Side>(side)
-  const [active, setActive] = useState(false)
+  const dialogRef = useRef<HTMLDivElement | null>(null)
 
   const cleanupRef = useRef<() => void>(() => {})
   // Tracks any pending close animation so it can be cancelled if the popover reopens mid-animation
@@ -239,18 +234,17 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
       const {
         x,
         y,
-        side: s,
+        side: resolvedSide,
         arrowX,
         arrowY
       } = computePosition(reference, dialog, arrow, side, align, offset, smart, fixed, padding)
-
 
       // Update side/align attributes on the popover panel synchronously so the arrow orientation
       // matches the position *before* the next React paint. This prevents a one-frame flicker in
       // Safari when smart positioning flips the side (e.g. desired "left" → chosen "top").
       const panel = dialog.querySelector('.popover-content') as HTMLElement | null
       if (panel) {
-        panel.dataset.side = s
+        panel.dataset.side = resolvedSide
         panel.dataset.align = align
       }
 
@@ -272,9 +266,8 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
         void arrow.offsetHeight
         void arrow.offsetWidth
       }
-      setResolvedSide(s)
     },
-    [refs.anchor, refs.trigger, refs.arrow, side, align, offset, smart, padding, resolvedSide, open]
+    [side, align, offset, smart, padding]
   )
 
   const handleResize = useCallback(() => measure(false), [measure])
@@ -296,11 +289,11 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
     if (!dialog) return
 
     measure(false)
-    dialog.showPopover()
     requestAnimationFrame(() => {
       measure(false)
+      const panel = dialog.querySelector('.popover-content') as HTMLElement | null
+      if (panel) panel.dataset.state = 'open'
       dialog.dataset.state = 'open'
-      setActive(true)
     })
 
     window.addEventListener('resize', handleResize)
@@ -336,22 +329,22 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
         return
       }
       const content = dialog.querySelector('.popover-content') as HTMLElement | null
-
-      // Flip internal state so `.popover-content` gets `data-state="closed"` and animates out
-      setActive(false)
+      if (content) content.dataset.state = 'closed'
+      // Remove immediate wrapper hide
+      // dialog.dataset.state = 'closed'
 
       const tidy = () => {
-        dialog.hidePopover()
+        // hide wrapper after exit animation
+        dialog.dataset.state = 'closed'
         cleanup()
         cb?.()
       }
-
       if (!content) {
         tidy()
         return
       }
 
-      // Wait for the content's exit transition before hiding / unmounting
+      // Wait for the content's exit transition before unmounting
       content.addEventListener('transitionend', tidy, { once: true })
 
       // Safety timeout in case `transitionend` never fires
@@ -367,15 +360,13 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
     [cleanup]
   )
 
-  // Re-measure whenever the popover opens _or_ when the resolvedSide flips due to smart positioning
-  // This guards against a brief mismatch between the computed side and the rendered side,
-  // which causes incorrect arrow placement in Safari when the fallback side differs.
+  // Re-measure whenever the popover opens or its positioning props change
   useEffect(() => {
     if (open) measure(false)
-  }, [open, resolvedSide, measure])
+  }, [open, measure])
 
   const setDialogRef = useCallback(
-    (el: HTMLDialogElement | null) => {
+    (el: HTMLDivElement | null) => {
       dialogRef.current = el
 
       // Trigger mount immediately if the popover should be open and the dialog just mounted
@@ -395,7 +386,7 @@ export const usePopoverPosition = ({ open, refs, side, align, offset, smart, pad
   const openPopover = useCallback(() => mount(), [mount])
   const closePopover = useCallback((cb?: () => void) => unmount(cb), [unmount])
 
-  return { dialogRef, setDialogRef, resolvedSide, openPopover, closePopover, active }
+  return { dialogRef, setDialogRef, openPopover, closePopover }
 }
 
 function getScrollParents(element: HTMLElement | null): HTMLElement[] {
