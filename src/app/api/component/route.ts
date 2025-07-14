@@ -5,18 +5,25 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const name = (searchParams.get('component') || '').toLowerCase().trim()
+  const rawComponents = searchParams.getAll('component')
+  const names = rawComponents
+    .flatMap((c) => c.split(',').map((n) => n.toLowerCase().trim()))
+    .filter(Boolean)
   const exact = searchParams.get('exactMatch')
   const exactMatch = exact === 'true' || exact === '1'
 
-  if (!name) {
+  if (!names.length) {
     return NextResponse.json([])
   }
 
   const index = await getSearchIndex()
-  const filtered = index.filter(
-    (entry) => entry.type === 'ui' && (exactMatch ? entry.path[1].toLowerCase() === name : entry.path[1].toLowerCase().includes(name))
-  )
+  const filtered = index.filter((entry) => {
+    if (entry.type !== 'ui') return false
+    const componentName = entry.path[1].toLowerCase()
+    return exactMatch
+      ? names.includes(componentName)
+      : names.some((n) => componentName.includes(n))
+  })
 
   return NextResponse.json(filtered)
 }
