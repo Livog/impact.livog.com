@@ -6,7 +6,7 @@ export function SelectPage() {
   return (
     <Select.Root>
       <Select.Trigger>
-        <Select.Value placeholder="Select an option" />
+        <Select.Value />
       </Select.Trigger>
       <Select.Portal>
         <Select.Backdrop />
