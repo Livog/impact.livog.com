@@ -1,4 +1,3 @@
-// This page imports all Livog UI component examples for bundle size comparison
 'use client'
 
 import { AccordionPage } from '@/app/bundles/ui/livogui/accordion/client'
@@ -11,7 +10,7 @@ import { TabsPage } from '@/app/bundles/ui/livogui/tabs/client'
 
 export default function LivoguiBundlePage() {
   return (
-    <div className="hidden">
+    <>
       <AccordionPage />
       <CheckboxPage />
       <CollapsiblePage />
@@ -19,6 +18,6 @@ export default function LivoguiBundlePage() {
       <PopoverPage />
       <SwitchPage />
       <TabsPage />
-    </div>
+    </>
   )
 }

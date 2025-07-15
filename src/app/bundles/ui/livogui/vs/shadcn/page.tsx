@@ -1,4 +1,3 @@
-// This page imports matching ShadCN components for bundle size comparison
 'use client'
 
 import { AccordionPage } from '@/app/bundles/ui/shadcn/accordion/client'
@@ -13,7 +12,7 @@ import { TabsPage } from '@/app/bundles/ui/shadcn/tabs/client'
 
 export default function ShadcnBundlePage() {
   return (
-    <div className="hidden">
+    <>
       <AccordionPage />
       <AlertDialogPage />
       <DialogPage />
@@ -23,6 +22,6 @@ export default function ShadcnBundlePage() {
       <PopoverPage />
       <SwitchPage />
       <TabsPage />
-    </div>
+    </>
   )
 }
